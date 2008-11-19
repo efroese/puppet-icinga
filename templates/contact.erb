@@ -1,0 +1,42 @@
+# $Id$
+
+####################################################################
+##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
+####################################################################
+#### a contact.
+#define contact{
+#  contact_name                    jdoe
+#  alias                           John Doe
+#  service_notification_period     24x7
+#  host_notification_period        24x7
+#  service_notification_options    w,u,c,r
+#  host_notification_options       d,u,r
+#  service_notification_commands   notify-by-email
+#  host_notification_commands      host-notify-by-email
+# email       jdoe@localhost.localdomain
+# pager       555-5555@pagergateway.localhost.localdomain
+#  address1      xxxxx.xyyy@icq.com
+#  address2      555-555-5555
+#  }
+
+define contact {
+	contact_name	              <%= contact_name_real %>
+	alias				          <%= contact_alias %>
+    <% if contact_groups  !="" -%> 
+	contactgroups	              <%= contact_groups %>
+    <% end -%>
+	host_notification_period	  <%= host_notification_period %>
+	service_notification_period	  <%= service_notification_period %>
+	host_notification_options	  <%= host_notification_options %>
+	service_notification_options  <%= service_notification_options %>
+	host_notification_commands	  <%= host_notification_commands %>
+	service_notification_commands <%= service_notification_commands %>
+	email				   <%= email %>
+    <% if pager  !="" -%>
+	pager				          <%= pager %>
+    <% end -%>
+
+}
+
+##TODO: Add adresses from an array
+##addressx	additional_contact_address
