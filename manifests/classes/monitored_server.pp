@@ -151,13 +151,13 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 			check_command => "check_nrpe_1arg!check_zombie_procs",
 			notification_period => "workhours",
   }
-  $crit_one = max(times($processorcount, "5"), "10")
-    $crit_five = max(times($processorcount, "4.5"),"15")
-    $crit_fifteen = max(times($processorcount, "4"),"20")
+  $crit_one = max(times($processorcount, "5.5"), "10")
+    $crit_five = max(times($processorcount, "5"),"15")
+    $crit_fifteen = max(times($processorcount, "4.5"),"20")
 
-    $warn_one = max(times($processorcount, "3.0"), "5")
-    $warn_five = max(times($processorcount, "2.5"), "7")
-    $warn_fifteen = max(times($processorcount, "2.0"), "9")
+    $warn_one = max(times($processorcount, "3.5"), "8")
+    $warn_five = max(times($processorcount, "3.0"), "9")
+    $warn_fifteen = max(times($processorcount, "2.5"), "10")
     nagios2_nrpe_service { "${fqdn}_nrpe_load":
       service_description => "LOAD",
 			  command_name => "check_load",
