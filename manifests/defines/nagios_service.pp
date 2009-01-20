@@ -247,8 +247,8 @@ false:{
       }
   }
   $nagiosplugins = $operatingsystem ? {
-    "debian" =>"/usr/lib/nagios/plugins",
-      "freebsd" => "/usr/local/libexec/nagios",
+    "FreeBSD" => "/usr/local/libexec/nagios",
+      default =>"/usr/lib/nagios/plugins",
   }
   remotefile{ "${nagiosplugins}/${command_name}":
     mode => "0755",

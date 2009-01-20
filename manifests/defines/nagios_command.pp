@@ -29,7 +29,7 @@ define nagios2_nrpe_command (
 		default => $command_name,
 	}
 	$sudobin = $kernel ? {
-	  "freebsd" => "/usr/local/bin/sudo",
+	  "FreeBSD" => "/usr/local/bin/sudo",
 	  default => "/usr/bin/sudo",
 	}
 	case $sudo {
@@ -47,12 +47,12 @@ define nagios2_nrpe_command (
 		}
 	}
 	$nagioscfg = $operatingsystem ? {
-		"debian" =>"/etc/nagios/nrpe_local.cfg",
-			"freebsd" => "/usr/local/etc/nrpe_local.cfg",
+	  "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
+	    default =>"/etc/nagios/nrpe_local.cfg",
 	}
 	line { "nagios_nrpe_${name}":
-		file => "${nagioscfg}",
-		     line => "command[${cmd_real}]=${command_line_real}",
-		     ensure => $ensure,
+	  file => "${nagioscfg}",
+	       line => "command[${cmd_real}]=${command_line_real}",
+	       ensure => $ensure,
 	}
 }

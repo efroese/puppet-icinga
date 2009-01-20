@@ -27,22 +27,26 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   tag("nagios")
 
     $nrpe_service = $operatingsystem ? {
-      "debian" =>"nagios-nrpe-server",
-	"freebsd" => "nrpe2",
+      "Debian" =>"nagios-nrpe-server",
+	"Ubuntu" =>"nagios-nrpe-server",
+	"FreeBSD" => "nrpe2",
     }
 
   $nrpebin = $operatingsystem ? {
-    "debian" =>"/usr/sbin/nrpe",
-      "freebsd" => "/usr/local/sbin/nrpe2",
+    "Debian" =>"/usr/sbin/nrpe",
+      "Ubuntu" =>"/usr/sbin/nrpe",
+      "FreeBSD" => "/usr/local/sbin/nrpe2",
   }
   $nagiosplugins = $operatingsystem ? {
-    "debian" =>"/usr/lib/nagios/plugins",
-      "freebsd" => "/usr/local/libexec/nagios",
+    "Debian" =>"/usr/lib/nagios/plugins",
+      "Ubuntu" =>"/usr/lib/nagios/plugins",
+      "FreeBSD" => "/usr/local/libexec/nagios",
   }
 
   $nrpecfg =  $operatingsystem ? {
-    "debian" =>"/etc/nagios/nrpe.cfg",
-      "freebsd" => "/usr/local/etc/nrpe.cfg",
+    "Debian" =>"/etc/nagios/nrpe.cfg",
+      "Ubtuntu" =>"/etc/nagios/nrpe.cfg",
+      "FreeBSD" => "/usr/local/etc/nrpe.cfg",
   }
   package{ $nrpe_service:
     ensure => installed,
@@ -50,7 +54,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 
 
   case $operatingsystem {
-    "debian": {
+    "Debian","Ubuntu": {
       package{ [ "nagios-plugins", "nagios-plugins-basic" ]:
 	ensure => installed,
       }
@@ -76,7 +80,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   }
 #add apt nrpe service
   case $operatingsystem {
-    "debian": {
+    "Debian","Ubuntu": {
       nagios2_nrpe_service { "${fqdn}_nrpe_apt":
 	command_name => "check_apt",
 		     command_line => "${nagiosplugins}/check_apt",
@@ -97,7 +101,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 
     }
 
-    "freebsd": {
+    "FreeBSD": {
       nagios2_nrpe_service { "${fqdn}_nrpe_apt":
 	command_name => "check_apt",
 		     command_line => "${nagiosplugins}/check_apt",
