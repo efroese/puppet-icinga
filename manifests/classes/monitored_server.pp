@@ -45,7 +45,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 
   $nrpecfg =  $operatingsystem ? {
     "Debian" =>"/etc/nagios/nrpe.cfg",
-      "Ubtuntu" =>"/etc/nagios/nrpe.cfg",
+      "Ubuntu" =>"/etc/nagios/nrpe.cfg",
       "FreeBSD" => "/usr/local/etc/nrpe.cfg",
   }
   package{ $nrpe_service:
