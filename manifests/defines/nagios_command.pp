@@ -50,9 +50,15 @@ define nagios2_nrpe_command (
 	  "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
 	    default =>"/etc/nagios/nrpe_local.cfg",
 	}
+	if ($command_line_real != ""){
 	line { "nagios_nrpe_${name}":
 	  file => "${nagioscfg}",
 	       line => "command[${cmd_real}]=${command_line_real}",
 	       ensure => $ensure,
 	}
+	}
+	
+	exec{"sed -ie '/^command\[.*\]=$/d' ${nagioscfg}":
+	 onlyif => "qrep -qe '^command\[.*\]=$'",  
 }
+	}
