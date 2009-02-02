@@ -112,7 +112,7 @@ define nagios2_nrpe_service (
     $service_description,
     $servicegroups="",
     $is_volatile="",
-    $command_name,
+    $command_name="",
     $command_line,
     $max_check_attempts="5",
     $normal_check_interval="30",
@@ -142,21 +142,24 @@ define nagios2_nrpe_service (
     $sudo = false
     )
 {
-
+   $cmd_real = $command_name ? {
+     "" => $name,
+       default => $command_name,
+   }
   nagios2_nrpe_command{ "nagios_nrpe_${command_name}_${host_name}":
-    command_name => $command_name,
+    command_name => $cmd_real,
     command_line  => $command_line,
     ensure => $ensure,
     tag => "nagios",
     sudo => $sudo,
   }
 
-  nagios2_service{ "nagios_${command_name}_${host_name}":
+  nagios2_service{ "nagios_${cmd_real}_${host_name}":
     host_name => $host_name,
     service_description => $service_description,
     servicegroups => $servicegroups,
     is_volatile => $is_volatile,
-    check_command => "check_nrpe_1arg!${command_name}",
+    check_command => "check_nrpe_1arg!${cmd_real}",
     max_check_attempts => $max_check_attempts,
     normal_check_interval => $normal_check_interval,
     retry_check_interval => $retry_check_interval,
@@ -191,7 +194,7 @@ define nagios2_nrpe_plugin (
     $service_description,
     $servicegroups="",
     $is_volatile="",
-    $command_name,
+    $command_name="",
     $command_line,
     $max_check_attempts="5",
     $normal_check_interval="30",
@@ -223,13 +226,16 @@ define nagios2_nrpe_plugin (
 {
   $host_name_real = downcase($host_name)
     $sudobin = $kernel ? {
-      "freebsd" => "/usr/local/bin/sudo",
+      "FreeBSD" => "/usr/local/bin/sudo",
       default => "/usr/bin/sudo",
     }
-
+        $cmd_real = $command_name ? {
+          "" => $name,
+            default => $command_name,
+        }
   case $sudo {
 true: {
-	sudo::sudoer{"nagios_${hostname}_${command_name}":
+	sudo::sudoer{"nagios_${hostname}_${cmd_real}":
 	  user => "nagios",
 	  host_name => $hostname,
 	  command => "NOPASSWD: ${command_line}",
@@ -261,7 +267,7 @@ false:{
 	      service_description => $service_description,
 	      servicegroups => $servicegroups,
 	      is_volatile => $is_volatile,
-	      command_name => $command_name,
+	      command_name => $cmd_real,
 	      command_line  => $command_line_real,
 	      max_check_attempts => $max_check_attempts,
 	      normal_check_interval => $normal_check_interval,
