@@ -1,5 +1,6 @@
-# $Id$
 #!/usr/bin/env ruby
+# $Id$
+
 #author: udo waechter (uwaechte@uos.de), 2009-02-14
 
 # NUMHSTCHECKED        number of hosts that have been checked since start.
@@ -26,7 +27,7 @@ graph_title Hosts checks by type
 graph_category Nagios 
 graph_args  --base 1000 -l 0
 graph_vlabel Number of checks
-  EOM
+EOM
 checks.each do |check|
   puts "#{check}.label #{check}"
 end  
