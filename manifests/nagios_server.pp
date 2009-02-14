@@ -59,6 +59,10 @@ class nagios::server{
   nagios2_command{"check-rpc-version-tcp":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -t -C \$ARG1\$ -c \$ARG2\$",
   }
+  # default host groups
+    nagios2_hostgroup{["Debian","Ubuntu","FreeBSD","Darwin"]: }
+    nagios2_hostgroup{["Physical","Xenu","Xen0"]: }
+
 }
 
 

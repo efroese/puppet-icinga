@@ -1,10 +1,9 @@
 # $Id$
 
 class nagios::monitored::server {
-
 # define this host for nagios
   nagios2_host { $fqdn:
-    hostgroups => $domain,
+    hostgroups => "${domain},${operatingsystem},${virtual}",
   }
   nagios2_service { "${fqdn}_ssh":
     service_description => "SSH",
@@ -74,6 +73,16 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 	   port => 5666,
   }
 #add apt nrpe service
+  nagios2_nrpe_plugin { "${fqdn}_check_nfs_stale":
+    command_name => "check_nfs_stale",
+		 command_line => "${nagiosplugins}/check_nfs_stale",
+		 service_description => "NFS_STALE",
+		 notification_period => "workhours",
+		 notification_options => "w,c,u",
+  }
+
+
+
   case $operatingsystem {
     "Debian","Ubuntu": {
       nagios2_nrpe_service { "${fqdn}_nrpe_apt":
@@ -135,7 +144,8 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   nagios2_service { "${fqdn}_nrpe_users":
     service_description => "LOGGEDIN_USERS",
 			check_command => "check_nrpe_1arg!check_users",
-			notifications_enabled => "0",
+			notifications_enabled => "1",
+			notification_period => "workhours",
 			notification_options => "w,c,u",
   }
   nagios2_nrpe_service { "${fqdn}_nrpe_processes":

@@ -3,7 +3,7 @@
 class nagios::monitored::desktop {
 # define this host for nagios
   nagios2_host { $fqdn:
-    hostgroups => $domain,
+    hostgroups => "${domain},${operatingsystem},${virtual}",
 	       notification_options => "n",
 	       notification_period => "workhours",
   }
