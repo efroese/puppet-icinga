@@ -36,26 +36,32 @@ define nagios2_host(
     if defined(Nagios2file["host_${host_name_real}"]){
       debug("already defined")
     }else{
-
       nagios2file { "host_${host_name_real}":
 	content => template("nagios/host.erb"),
 	ensure =>$ensure,
       }
-
     }
 }
 
 
 define nagios2_hostgroup (
     $hostgroup_name="",
-    $hostgroup_alias,
+    $hostgroup_alias="",
     $members="gateway",
     $ensure = "present"
     )
 {
   $hostgroup_name_real = $hostgroup_name ? {
-    "" => $name,
-    default => $hostgroup_name
+    "" => downcase($name),
+    default => downcase($hostgroup_name)
+  }
+
+  $hostgroup_alias_real = $hostgroup_alias ? {
+    "" => $hostgroup_name ? {
+      "" => $name,
+      default => $hostgroup_name
+    },
+    default => $hostgroup_alias
   }
   nagios2file { "hostgroup_${hostgroup_name_real}":
     content => template("nagios/hostgroup.erb"),

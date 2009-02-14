@@ -21,7 +21,7 @@ $ensure = "present"
       content => $content,
       notify => Service["nagios3"],
       tag => "nagios",
-      onwer => "nagios",
+      owner => "nagios",
       group => "www-data",
       mode => 0644,
    }

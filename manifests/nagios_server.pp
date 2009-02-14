@@ -15,7 +15,11 @@ class nagios::server{
     require => Package["nagios3"],
     subscribe => File[$NAGIOSCONFDIR],
   }
-  munin::remoteplugin{ ["nagios-hosts", "nagios-services"]: ensure => "present" }
+  munin::remoteplugin{ ["nagios-hosts", "nagios-services"]: 
+    ensure => "present",
+    source => "nagios/munin",
+    config => "[nagios-*]\nuser root\n",
+  }
 #collect all nagios_ definitions
 
   File <<| tag == "nagios" |>>
