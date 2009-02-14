@@ -1,6 +1,6 @@
 # $Id$
 
-$NAGIOSCONFDIR="/etc/nagios2/conf.d"
+$NAGIOSCONFDIR="/etc/nagios3/conf.d"
 
 define nagios2file(
 $path="",
@@ -15,12 +15,15 @@ $ensure = "present"
       default => $path,
    }
 
-   #notice ("Setting nagios2 check: ${name_real} and: ${path_real}")
+   #notice ("Setting nagios3 check: ${name_real} and: ${path_real}")
    @@file { "${path_real}.cfg":
    ensure => $ensure,
       content => $content,
-      notify => Service["nagios2"],
+      notify => Service["nagios3"],
       tag => "nagios",
+      onwer => "nagios",
+      group => "www-data",
+      mode => 0644,
    }
 }
 

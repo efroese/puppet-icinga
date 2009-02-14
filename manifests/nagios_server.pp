@@ -3,17 +3,16 @@
 class nagios::server{
 
   include nagios::nsca::receiver
-    package { ["nagios2",
+    package { ["nagios3",
       "nagios-images",
       "nagios-nrpe-plugin",
-      "nagios2-common",
-      "nagios-plugins-standard",
-      "nagiosgrapher" ]: ensure => present }
+      "nagios3-common",
+      "nagios-plugins-standard" ]: ensure => present }
 
 
-  service{ "nagios2":
+  service{ "nagios3":
     ensure => running,
-    require => Package["nagios2"],
+    require => Package["nagios3"],
     subscribe => File[$NAGIOSCONFDIR],
   }
   munin::remoteplugin{ ["nagios-hosts", "nagios-services"]: ensure => "present" }
@@ -23,21 +22,21 @@ class nagios::server{
 
     file { $NAGIOSCONFDIR:
       ensure => directory,
-	     require => Package["nagios2"],
+	     require => Package["nagios3"],
     }
-  file { [ "${NAGIOSCONFDIR}/localhost_nagios2.cfg",
-    "${NAGIOSCONFDIR}/hostgroups_nagios2.cfg",
-    "${NAGIOSCONFDIR}/extinfo_nagios2.cfg" ]:
+  file { [ "${NAGIOSCONFDIR}/localhost_nagios3.cfg",
+    "${NAGIOSCONFDIR}/hostgroups_nagios3.cfg",
+    "${NAGIOSCONFDIR}/extinfo_nagios3.cfg" ]:
       ensure  => absent,
-    notify  => Service["nagios2"],
+    notify  => Service["nagios3"],
     tag => "nagios",
   }
-  remotefile {"${NAGIOSCONFDIR}/timeperiods_nagios2.cfg":
+  remotefile {"${NAGIOSCONFDIR}/timeperiods_nagios3.cfg":
     ensure => present,
-    source => "timeperiods_nagios2.cfg",
+    source => "timeperiods_nagios3.cfg",
     module => "nagios",
     mode=> "0644",
-    notify => Service["nagios2"],
+    notify => Service["nagios3"],
   }
 
 ##some additional commands

@@ -4,12 +4,7 @@ class nagios::monitored::server {
 
 # define this host for nagios
   nagios2_host { $fqdn:
-    hostgroups => $domain ? {
-      "ikw.Uni-Osnabrueck.DE" => "IKW,Servers",
-	"neurobiopsychologie.Uni-Osnabrueck.DE" => "NBP,Servers",
-	"cogsci.Uni-Osnabrueck.DE" => "COGSCI,Servers",
-	default => "IKW,Servers",
-    }
+    hostgroups => $domain,
   }
   nagios2_service { "${fqdn}_ssh":
     service_description => "SSH",

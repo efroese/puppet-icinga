@@ -3,12 +3,7 @@
 class nagios::monitored::desktop {
 # define this host for nagios
   nagios2_host { $fqdn:
-    hostgroups => $domain ? {
-      "ikw.Uni-Osnabrueck.DE" => "IKW,Desktops",
-	"nkg.Uni-Osnabrueck.DE" => "NKG,Desktops",
-	"neurobiopsychologie.Uni-Osnabrueck.DE" => "NBP,Desktops",
-	"cogsci.Uni-Osnabrueck.DE" => "COGSCI,Desktops",
-    },
+    hostgroups => $domain,
 	       notification_options => "n",
 	       notification_period => "workhours",
   }
