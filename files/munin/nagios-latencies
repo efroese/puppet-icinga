@@ -34,7 +34,7 @@ if ARGV.include?("config")
 graph_title Latencies of checks
 graph_category Nagios 
 graph_args  --base 1000 -l 0
-graph_vlabel latencies in s
+graph_vlabel ms
 EOM
 checks.each do |check|
   puts "#{check}.label #{check}"
@@ -45,6 +45,6 @@ end
 out = %x{ /usr/sbin/nagios3stats -m -d #{checks_join} }.split("\n")
 cnt = 0
 checks.each do |check|
-    puts "#{check}.value #{out[cnt].to_i / 1000}"
+    puts "#{check}.value #{out[cnt]}"
     cnt += 1  
 end        
