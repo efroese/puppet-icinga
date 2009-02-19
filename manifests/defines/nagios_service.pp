@@ -142,10 +142,10 @@ define nagios2_nrpe_service (
     $sudo = false
     )
 {
-   $cmd_real = $command_name ? {
-     "" => $name,
-       default => $command_name,
-   }
+  $cmd_real = $command_name ? {
+    "" => $name,
+    default => $command_name,
+  }
   nagios2_nrpe_command{ "nagios_nrpe_${command_name}_${host_name}":
     command_name => $cmd_real,
     command_line  => $command_line,
@@ -229,10 +229,10 @@ define nagios2_nrpe_plugin (
       "FreeBSD" => "/usr/local/bin/sudo",
       default => "/usr/bin/sudo",
     }
-        $cmd_real = $command_name ? {
-          "" => $name,
-            default => $command_name,
-        }
+  $cmd_real = $command_name ? {
+    "" => $name,
+    default => $command_name,
+  }
   case $sudo {
 true: {
 	sudo::sudoer{"nagios_${hostname}_${cmd_real}":

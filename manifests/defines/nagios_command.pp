@@ -40,11 +40,11 @@ define nagios2_nrpe_command (
 	command => "NOPASSWD: ${command_line}",
 	ensure => $ensure,
       }
-      $command_line_real = "${sudobin} ${command_line}"
     }
-    "false":{
-      $command_line_real = $command_line
-    }
+  }
+  $command_line_real = $sudo ? {
+    "true" => "${sudobin} ${command_line}",
+      default => "${command_line}"
   }
   $nagioscfg = $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
@@ -60,7 +60,8 @@ define nagios2_nrpe_command (
   if defined(Exec["cleanup_nrpe_local"]) != true {
     exec{"cleanup_nrpe_local":
       command => "/bin/sed -ie '/^command\\[.*\\]=$/d' ${nagioscfg}",
-	      onlyif => "/bin/grep -qe '^command\\[.*\\]=$'",  
+	      onlyif => "/bin/grep -qe '^command\\[.*\\]=$'",
+	      logoutput => true,  
     }
   }
 }

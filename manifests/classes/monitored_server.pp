@@ -81,8 +81,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 notification_options => "w,c,u",
   }
 
-
-
   case $operatingsystem {
     "Debian","Ubuntu": {
       nagios2_nrpe_service { "${fqdn}_nrpe_apt":
