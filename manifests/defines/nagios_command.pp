@@ -59,7 +59,7 @@ define nagios2_nrpe_command (
   }
   if defined(Exec["cleanup_nrpe_local"]) != true {
     exec{"cleanup_nrpe_local":
-      command => "/bin/sed -ie '/^command\\[.*\\]=$/d' ${nagioscfg}",
+      command => "/bin/sed -i -e '/^command\\[.*\\]=$/d' ${nagioscfg}",
 	      onlyif => "/bin/grep -qe '^command\\[.*\\]=$'",
 	      logoutput => true,  
     }
