@@ -16,13 +16,13 @@
  #xxxPSVHSTPSC         MIN/MAX/AVG passive host check % state change.
  #xxxHSTPSC            MIN/MAX/AVG host check % state change.
 
-period = ["MIN","MAX","AVG"]
+period = ["MIN","AVG","MAX"]
 
 checks = [] 
 
 ["ACTSVCPSC","PSVSVCPSC","SVCPSC",
   "ACTHSTPSC","PSVHSTPSC","HSTPSC" ].sort.each do |chk|
-            period.sort.each { |per| checks.push "#{per}#{chk}" }
+            period.each { |per| checks.push "#{per}#{chk}" }
                end
 
 checks_join = checks.join(",")               

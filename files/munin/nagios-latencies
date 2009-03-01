@@ -16,14 +16,14 @@
  #xxxPSVHSTPSC         MIN/MAX/AVG passive host check % state change.
  #xxxHSTPSC            MIN/MAX/AVG host check % state change.
 
-period = ["MIN","MAX","AVG"]
+period = ["MIN","AVG","MAX"]
 
 checks = [] 
 
 ["ACTSVCLAT","ACTSVCEXT",
             "PSVSVCLAT", "ACTHSTLAT","ACTHSTEXT",
             "PSVHSTLAT"].sort.each do |chk|
-            period.sort.each { |per| checks.push "#{per}#{chk}" }
+            period.each { |per| checks.push "#{per}#{chk}" }
                end
 
 checks_join = checks.join(",")               
@@ -33,7 +33,7 @@ if ARGV.include?("config")
   puts <<EOM
 graph_title Latencies of checks
 graph_category Nagios 
-graph_args  --base 1000 -l 0
+graph_args  --logarithmic --base 1000 -l 0
 graph_vlabel ms
 EOM
 checks.each do |check|
