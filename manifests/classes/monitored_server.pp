@@ -17,35 +17,26 @@ class nagios::monitored::server {
 }
 
 class nagios::monitored::server::nrpe inherits nagios::monitored::server{
-
   tag("nagios")
-
     $nrpe_service = $operatingsystem ? {
-      "Debian" =>"nagios-nrpe-server",
-	"Ubuntu" =>"nagios-nrpe-server",
-	"FreeBSD" => "nrpe2",
+      "FreeBSD" => "nrpe2",
+	default =>"nagios-nrpe-server",
     }
-
   $nrpebin = $operatingsystem ? {
-    "Debian" =>"/usr/sbin/nrpe",
-      "Ubuntu" =>"/usr/sbin/nrpe",
-      "FreeBSD" => "/usr/local/sbin/nrpe2",
+    "FreeBSD" => "/usr/local/sbin/nrpe2",
+      default =>"/usr/sbin/nrpe",
   }
   $nagiosplugins = $operatingsystem ? {
-    "Debian" =>"/usr/lib/nagios/plugins",
-      "Ubuntu" =>"/usr/lib/nagios/plugins",
-      "FreeBSD" => "/usr/local/libexec/nagios",
+    "FreeBSD" => "/usr/local/libexec/nagios",
+      default =>"/usr/lib/nagios/plugins",
   }
-
   $nrpecfg =  $operatingsystem ? {
-    "Debian" =>"/etc/nagios/nrpe.cfg",
-      "Ubuntu" =>"/etc/nagios/nrpe.cfg",
-      "FreeBSD" => "/usr/local/etc/nrpe.cfg",
+    "FreeBSD" => "/usr/local/etc/nrpe.cfg",
+      default =>"/etc/nagios/nrpe.cfg",
   }
   package{ $nrpe_service:
     ensure => installed,
   }
-
 
   case $operatingsystem {
     "Debian","Ubuntu": {
@@ -54,9 +45,11 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
       }
     }
   }
-
-####
-
+  file{"/etc/nagios/nrpe.d":
+    ensure => "directory",
+	   owner => "nagios",
+	   group => "nagios",
+  }
   service{ $nrpe_service:
     ensure => stopped,
 	   enable => false,
