@@ -78,6 +78,10 @@ class nagios::nsca::receiver {
 	   only_from => "127.0.0.1 munin.ikw.Uni-Osnabrueck.DE",
 	   port => 5667,
   }
+  nagios2_service{ "${fqdn}_nsca_receiver":
+    service_description => "nsca",
+			check_command => "check_tcp!5667",
+  }
 
   nagios2_command {"dummy_command_for_nsca":
     command_name => "check_dummy",
