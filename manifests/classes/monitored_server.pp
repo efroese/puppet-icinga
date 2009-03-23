@@ -22,6 +22,11 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
       "FreeBSD" => "nrpe2",
 	default =>"nagios-nrpe-server",
     }
+  $nagiosconf = $operatingsystem ? {
+    "FreeBSD" => "/usr/local/etc/nagios",
+      default =>"/etc/nagios",
+  }
+
   $nrpebin = $operatingsystem ? {
     "FreeBSD" => "/usr/local/sbin/nrpe2",
       default =>"/usr/sbin/nrpe",
@@ -45,7 +50,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
       }
     }
   }
-  file{"/etc/nagios/nrpe.d":
+  file{"${nagiosconf}/nrpe.d":
     ensure => "directory",
 	   owner => "nagios",
 	   group => "nagios",
