@@ -195,7 +195,7 @@ define nagios2_nrpe_plugin (
     $servicegroups="",
     $is_volatile="",
     $command_name="",
-    $command_line,
+    $command_line="",
     $max_check_attempts="5",
     $normal_check_interval="30",
     $retry_check_interval="15",
@@ -229,21 +229,29 @@ define nagios2_nrpe_plugin (
       "FreeBSD" => "/usr/local/bin/sudo",
       default => "/usr/bin/sudo",
     }
+  $nagiosplugins = $operatingsystem ? {
+    "FreeBSD" => "/usr/local/libexec/nagios",
+    default =>"/usr/lib/nagios/plugins",
+  }
   $cmd_real = $command_name ? {
     "" => $name,
     default => $command_name,
+  }
+  $cmdline_real = $command_line ? {
+    "" => "${nagiosplugins}/${cmd_real}",
+    default => "${nagiosplugins}/${command_line}",
   }
   case $sudo {
 true: {
 	sudo::sudoer{"nagios_${hostname}_${cmd_real}":
 	  user => "nagios",
 	  host_name => $hostname,
-	  command => "NOPASSWD: ${command_line}",
+	  command => "NOPASSWD: ${cmdline_real}",
 	}
-	$command_line_real = "${sudobin} ${command_line}"
+	$command_line_real = "${sudobin} ${cmmdline_real}"
       }
 false:{
-	$command_line_real = $command_line
+	$command_line_real = $cmdline_real
 #         sudo::sudoer{"nagios_${ensure}_${hostname}":
 #            user => "nagios",
 #            host_name => $hostname,
@@ -252,17 +260,13 @@ false:{
 #         }
       }
   }
-  $nagiosplugins = $operatingsystem ? {
-    "FreeBSD" => "/usr/local/libexec/nagios",
-      default =>"/usr/lib/nagios/plugins",
-  }
-  remotefile{ "${nagiosplugins}/${command_name}":
+  remotefile{ "${nagiosplugins}/${cmd_real}":
     mode => "0755",
-	 source => "plugins/${command_name}",
+	 source => "plugins/${cmd_real}",
 	 ensure => $ensure,
 	 module => "nagios",
   }
-  nagios2_nrpe_service{ "nagios_${command_name}_${host_name}":
+  nagios2_nrpe_service{ "nagios_${cmd_real}_${host_name}":
     host_name => $host_name,
 	      service_description => $service_description,
 	      servicegroups => $servicegroups,

@@ -73,7 +73,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 #add apt nrpe service
   nagios2_nrpe_plugin { "${fqdn}_check_nfs_stale":
     command_name => "check_nfs_stale",
-		 command_line => "${nagiosplugins}/check_nfs_stale",
 		 service_description => "NFS_STALE",
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
