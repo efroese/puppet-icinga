@@ -248,7 +248,7 @@ true: {
 	  host_name => $hostname,
 	  command => "NOPASSWD: ${cmdline_real}",
 	}
-	$command_line_real = "${sudobin} ${cmmdline_real}"
+	$command_line_real = "${sudobin} ${cmdline_real}"
       }
 false:{
 	$command_line_real = $cmdline_real
