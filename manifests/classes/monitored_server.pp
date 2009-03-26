@@ -1,18 +1,9 @@
 # $Id$
 
-class nagios::monitored::server {
+class nagios::monitored::server inherits nagios::monitored::common {
 # define this host for nagios
   nagios2_host { $fqdn:
     hostgroups => "${domain},${operatingsystem},${virtual}",
-  }
-  nagios2_service { "${fqdn}_ssh":
-    service_description => "SSH",
-			check_command => "check_ssh",
-			notification_period => "workhours",
-  }
-  nagios2_service { "${fqdn}_ping":
-    service_description => "PING",
-			check_command => "check_ping!125.0,20%!500.0,60%",
   }
 }
 
@@ -78,50 +69,16 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 notification_options => "w,c,u",
   }
 
-  case $operatingsystem {
-    "Debian","Ubuntu": {
-      nagios2_nrpe_service { "${fqdn}_nrpe_apt":
-	command_name => "check_apt",
-		     command_line => "${nagiosplugins}/check_apt",
-		     service_description => "APT",
-		     normal_check_interval => "1440",
-		     notification_interval => "50400",
-		     notification_period => "workhours",
-		     notification_options => "w,c,u",
-      }
-      nagios2_nrpe_service { "${fqdn}_nrpe_mailq":
-	command_name => "check_mailq",
-		     command_line => "${nagiosplugins}/check_mailq -w 10 -c 20 -M exim",
-		     service_description => "EXIM_MAILQ",
-		     notification_options => "w,c,u",
-		     sudo => true,
-		     ensure => absent,
-      }
 
-    }
-
-    "FreeBSD": {
-      nagios2_nrpe_service { "${fqdn}_nrpe_apt":
-	command_name => "check_apt",
-		     command_line => "${nagiosplugins}/check_apt",
-		     service_description => "APT",
-		     normal_check_interval => "1440",
-		     notification_interval => "50400",
-		     notification_period => "workhours",
-		     notification_options => "w,c,u",
-		     ensure => absent,
-      }
-      nagios2_nrpe_service { "${fqdn}_nrpe_mailq":
-	command_name => "check_mailq",
-		     command_line => "${nagiosplugins}/check_mailq -w 10 -c 20 -M exim",
-		     service_description => "EXIM_MAILQ",
-		     notification_options => "w,c,u",
-		     sudo => true,
-		     ensure => absent,
-      }
-
-    }
+  nagios2_nrpe_service { "${fqdn}_nrpe_mailq":
+    command_name => "check_mailq",
+		 command_line => "${nagiosplugins}/check_mailq -w 10 -c 20 -M exim",
+		 service_description => "EXIM_MAILQ",
+		 notification_options => "w,c,u",
+		 sudo => true,
+		 ensure => absent,
   }
+
 
   nagios2_nrpe_service { "${fqdn}_nrpe_swap":
     command_name => "check_swap",

@@ -1,17 +1,11 @@
 # $Id$
 
-class nagios::monitored::desktop {
+class nagios::monitored::desktop inherits nagios::monitored::common {
 # define this host for nagios
   nagios2_host { $fqdn:
     hostgroups => "${domain},${operatingsystem},${virtual}",
 	       notification_options => "n",
 	       notification_period => "workhours",
-  }
-  nagios2_service { "${fqdn}_ssh":
-    service_description => "SSH",
-			check_command => "check_ssh",
-			notification_period => "workhours",
-			notification_options => "n",
   }
   nagios2_nsca_service { "${fqdn}_diskspace":
     service_description => "DISKUSAGE",
@@ -23,9 +17,4 @@ class nagios::monitored::desktop {
 			notification_period => "workhours",
 			notification_options => "w,c,u",
   }
-  nagios2_nsca_service { "${fqdn}_packages":
-    service_description => "Pending packages",
-			notification_period => "workhours",
-			notification_options => "n",
   }
-}
