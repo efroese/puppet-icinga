@@ -68,19 +68,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
   }
-
-
-  nagios2_nrpe_service { "${fqdn}_nrpe_mailq":
-    command_name => "check_mailq",
-		 command_line => "${nagiosplugins}/check_mailq -w 10 -c 20 -M exim",
-		 service_description => "EXIM_MAILQ",
-		 notification_options => "w,c,u",
-		 sudo => true,
-		 ensure => absent,
-  }
-
-
-  nagios2_nrpe_service { "${fqdn}_nrpe_swap":
+    nagios2_nrpe_service { "${fqdn}_nrpe_swap":
     command_name => "check_swap",
 		 command_line  => "${nagiosplugins}/check_swap -w 10% -c 2%",
 		 service_description => "SWAP",
