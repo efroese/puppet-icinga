@@ -194,6 +194,7 @@ define nagios2_nrpe_plugin (
     $service_description,
     $servicegroups="",
     $is_volatile="",
+    $source="plugins",
     $command_name="",
     $command_line="",
     $max_check_attempts="5",
@@ -262,7 +263,7 @@ false:{
   }
   remotefile{ "${nagiosplugins}/${cmd_real}":
     mode => "0755",
-	 source => "plugins/${cmd_real}",
+	 source => "${source}/${cmd_real}",
 	 ensure => $ensure,
 	 module => "nagios",
   }
