@@ -11,10 +11,12 @@ class nagios::monitored::desktop inherits nagios::monitored::common {
     service_description => "DISKUSAGE",
 			notification_period => "workhours",
 			notification_options => "n",
+    ensure => "absent",
   }
   nagios2_nsca_service { "${fqdn}_load":
     service_description => "Load average",
 			notification_period => "workhours",
 			notification_options => "w,c,u",
+  ensure => "absent",
   }
   }

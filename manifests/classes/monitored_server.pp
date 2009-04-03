@@ -112,6 +112,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 			  command_name => "check_load",
 			  command_line => "${nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
 			  notification_options => "w,c,u",
+    ensure => "absent",
     }
 }
 

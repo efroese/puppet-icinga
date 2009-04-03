@@ -71,6 +71,6 @@ checks_join = checks.join(",")
 out = %x{ /usr/sbin/nagios3stats -m -d #{checks_join} }.split("\n")
 cnt = 0
 checks.each do |check|
-    %x{gmetric --name="nagios_#{check}" --value=#{out[cnt]} --type=uint8 --units="Value"}
+    %x{gmetric --tmax=1800 --name="nagios_#{check}" --value=#{out[cnt]} --type=uint8 --units="Value"}
     cnt += 1  
 end   

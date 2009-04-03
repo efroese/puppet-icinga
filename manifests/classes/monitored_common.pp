@@ -22,7 +22,8 @@ class nagios::monitored::common {
     service_description => "Pending packages",
 			notification_period => "workhours",
 			notification_options => "n",
-			ensure => $apt_present,
+			#ensure => $apt_present,
+    ensure => absent,
   }
 
   nagios2_nrpe_service { "${fqdn}_nrpe_apt":
