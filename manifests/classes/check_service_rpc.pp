@@ -25,19 +25,19 @@ class nagios::check::nfs inherits nagios::check::nfs::common{
 
   nagios2_service {"${fqdn}_rpc":
     service_description => "RPC_NFS",
-			check_command => "check-nfsv4",
+			check_command => "check-nfsv3",
   }
   nagios2_service {"${fqdn}_rpc-tcp":
     service_description => "RPC_NFSTCP",
-			check_command => "check-nfsv4-tcp",
+			check_command => "check-nfsv3-tcp",
   }
   nagios2_service {"${fqdn}_rpc-nlockmgr":
     service_description => "RPC_NLOCKMGR",
-			check_command => "check-rpc-version!nlockmgr!1,3,4",
+			check_command => "check-rpc-version!nlockmgr!1,3",
   }
   nagios2_service {"${fqdn}_rpc-nlockmgr-tcp":
     service_description => "RPC_NLOCKMGRTCP",
-			check_command => "check-rpc-version-tcp!nlockmgr!1,3,4",
+			check_command => "check-rpc-version-tcp!nlockmgr!1,3",
   }
 }
 

@@ -49,6 +49,14 @@ class nagios::server{
   nagios2_command{"check-nfsv4-tcp":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -t -c2,3,4",
   }
+  nagios2_command{"check-nfsv3":
+    command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -c2,3",
+  }
+  nagios2_command{"check-nfsv3-tcp":
+    command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -t -c2,3",
+  }
+
+  
   nagios2_command{"check-rpc-tcp":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C \$ARG1\$ -t",
   }
