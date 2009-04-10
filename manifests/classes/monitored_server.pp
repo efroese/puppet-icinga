@@ -67,6 +67,10 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 service_description => "NFS_STALE",
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
+		 ensure => $kernel ? {
+		  "FreeBSD" => "absent",
+		  default => "present"
+		 }
   }
     nagios2_nrpe_service { "${fqdn}_nrpe_swap":
     command_name => "check_swap",
