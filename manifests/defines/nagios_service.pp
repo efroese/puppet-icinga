@@ -30,6 +30,8 @@ define nagios2_service (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
+    $multiple_values_array="",
+    $multiple_insertin="",
     $ensure="present"
     )
 {

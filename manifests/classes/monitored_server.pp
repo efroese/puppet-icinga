@@ -72,11 +72,16 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		  default => "present"
 		 }
   }
+  $swap_present = $swapsize ? {
+    "0.00 kB" => "absent",
+      default => "present"
+  }
     nagios2_nrpe_service { "${fqdn}_nrpe_swap":
     command_name => "check_swap",
 		 command_line  => "${nagiosplugins}/check_swap -w 10% -c 2%",
 		 service_description => "SWAP",
 		 notification_options => "w,c,u",
+    ensure => $swap_present
   }
   nagios2_nrpe_service { "${fqdn}_check_diskspace":
     command_name => "check_diskspace",
