@@ -1,0 +1,12 @@
+# $Id$
+##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
+define servicedependency{
+  dependent_host_name           <%= host_name_real %>
+  dependent_service_description <%= dependent_service_description %>
+  host_name                     <%= host_name_real %>
+  service_description           <%= service_description %>
+  inherits_parent               <%= inherits_parent %>
+  execution_failure_criteria    <%= execution_failure_criteria %>
+  notification_failure_criteria <%= notification_failure_criteria %>
+}
+#EOF

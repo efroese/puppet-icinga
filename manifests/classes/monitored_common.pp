@@ -5,6 +5,7 @@ class nagios::monitored::common {
     service_description => "SSH",
 			check_command => "check_ssh",
 			notification_period => "workhours",
+      dependent_service_description => "PING",
   }
   nagios2_service { "${fqdn}_ping":
     service_description => "PING",
@@ -22,7 +23,7 @@ class nagios::monitored::common {
     service_description => "Pending packages",
 			notification_period => "workhours",
 			notification_options => "n",
-			#ensure => $apt_present,
+    dependent_service_description => "PING",
     ensure => absent,
   }
 
@@ -34,6 +35,7 @@ class nagios::monitored::common {
 		 notification_interval => "50400",
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
+    dependent_service_description =>"PING",
 		 ensure => absent,
   }
 

@@ -69,6 +69,7 @@ class nagios::server{
 # default host groups
   nagios2_hostgroup{["Debian","Ubuntu","FreeBSD","Darwin"]: }
   nagios2_hostgroup{["Physical","Xenu","Xen0"]: }
+  nagios2_hostgroup{["ppc","amd64","i386","x86_64"]: }
   $nagiosplugins = $operatingsystem ? {
       "FreeBSD" => "/usr/local/libexec/nagios",
       default =>"/usr/lib/nagios/plugins",

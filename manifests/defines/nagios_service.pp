@@ -30,16 +30,26 @@ define nagios2_service (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
+    $dependent_service_description="",
+    $inherits_parent="1",
+    $execution_failure_criteria="w,u,c,p",
+    $notification_failure_criteria="w,u,c,p",
     $multiple_values_array="",
     $multiple_insertin="",
     $ensure="present"
     )
 {
   $host_name_real = downcase($host_name)
-    nagios2file { "service_${service_description}_${host_name_real}":
-      content => template("nagios/service.erb"),
-      ensure => $ensure,
+    if $dependent_service_description != "" {
+      $content = [ template("nagios/service.erb"), 
+      template("nagios/servicedependency.erb") ]
+    } else {
+      $content = template("nagios/service.erb")
     }
+  nagios2file { "service_${service_description}_${host_name_real}":
+    content => $content,
+    ensure => $ensure,
+  }
 }
 
 
@@ -71,6 +81,12 @@ define nagios2_nsca_service (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
+    $dependent_service_description="",
+    $inherits_parent="1",
+    $execution_failure_criteria="w,u,c,p",
+    $notification_failure_criteria="w,u,c,p",
+    $multiple_values_array="",
+    $multiple_insertin="",
     $ensure="present"
     )
 {
@@ -104,6 +120,12 @@ define nagios2_nsca_service (
     notifications_enabled => $notifications_enabled,
     contact_groups => $contact_groups,
     stalking_options => $stalking_options,
+    dependent_service_description => $dependent_service_description,
+    inherits_parent => $inherits_parent,
+    execution_failure_criteria => $execution_failure_criteria,
+    notification_failure_criteria => $notification_failure_criteria,
+    multiple_values_array => $multiple_values_array,
+    multiple_insertin => $multiple_insertin,
     ensure => $ensure,
   }
 
@@ -140,6 +162,12 @@ define nagios2_nrpe_service (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
+    $dependent_service_description="",
+    $inherits_parent="1",
+    $execution_failure_criteria="w,u,c,p",
+    $notification_failure_criteria="w,u,c,p",
+    $multiple_values_array="",
+    $multiple_insertin="",
     $ensure="present",
     $sudo = false
     )
@@ -186,6 +214,12 @@ define nagios2_nrpe_service (
     notifications_enabled => $notifications_enabled,
     contact_groups => $contact_groups,
     stalking_options => $stalking_options,
+    dependent_service_description => $dependent_service_description,
+    inherits_parent => $inherits_parent,
+    execution_failure_criteria => $execution_failure_criteria,
+    notification_failure_criteria => $notification_failure_criteria,
+    multiple_values_array => $multiple_values_array,
+    multiple_insertin => $multiple_insertin,
     ensure => $ensure,
     tag => "nagios"
   }
@@ -223,6 +257,12 @@ define nagios2_nrpe_plugin (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
+    $dependent_service_description="",
+    $inherits_parent="1",
+    $execution_failure_criteria="w,u,c,p",
+    $notification_failure_criteria="w,u,c,p",
+    $multiple_values_array="",
+    $multiple_insertin="",
     $ensure="present",
     $sudo = false
     )
@@ -248,8 +288,8 @@ define nagios2_nrpe_plugin (
 true: {
 	sudo::sudoer{"nagios_${hostname}_${cmd_real}":
 	  user => "nagios",
-	  host_name => $hostname,
-	  command => "NOPASSWD: ${cmdline_real}",
+	       host_name => $hostname,
+	       command => "NOPASSWD: ${cmdline_real}",
 	}
 	$command_line_real = "${sudobin} ${cmdline_real}"
       }
@@ -300,6 +340,12 @@ false:{
 	      notifications_enabled => $notifications_enabled,
 	      contact_groups => $contact_groups,
 	      stalking_options => $stalking_options,
+	      dependent_service_description => $dependent_service_description,
+	      inherits_parent => $inherits_parent,
+	      execution_failure_criteria => $execution_failure_criteria,
+	      notification_failure_criteria => $notification_failure_criteria,
+	      multiple_values_array => $multiple_values_array,
+	      multiple_insertin => $multiple_insertin,
 	      ensure => $ensure,
   }
 }
