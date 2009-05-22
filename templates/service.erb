@@ -1,7 +1,17 @@
 # $Id$
 ##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
 <% if multiple_values_array !="" -%>
-<% multiple_values_array.each do |value| -%>
+<%
+  values = [] 
+  if ! multiple_values_array.is_a?(Array) 
+  multiple_values_array.to_i.downto(1) { |num|
+  values << num.to_s
+  }
+  else
+  values = multiple_values_array
+  end
+-%>
+<% values.each do |value| -%>
 ### value: <%= value %>
 <% check_command_real = check_command.gsub("%REPLACE%",value) %>
 ### check_real: <%= check_command_real %>

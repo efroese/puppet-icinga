@@ -47,7 +47,7 @@ define nagios2_service (
       $content = template("nagios/service.erb","nagios/servicedependency.erb")
     }
 
-  nagios2file { "service_${service_description}_${host_name_real}":
+  nagios2file { "service_${service_description}_${name}":
     content => $content,
     ensure => $ensure,
   }
