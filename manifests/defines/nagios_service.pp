@@ -40,12 +40,13 @@ define nagios2_service (
     )
 {
   $host_name_real = downcase($host_name)
-    if $dependent_service_description != "" {
-      $content = [ template("nagios/service.erb"), 
-      template("nagios/servicedependency.erb") ]
-    } else {
+
+    if $dependent_service_description == "" {
       $content = template("nagios/service.erb")
+    }else {
+      $content = template("nagios/service.erb","nagios/servicedependency.erb")
     }
+
   nagios2file { "service_${service_description}_${host_name_real}":
     content => $content,
     ensure => $ensure,

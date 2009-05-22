@@ -67,7 +67,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 service_description => "NFS_STALE",
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
-    dependent_service_description =>"PING",
+		 dependent_service_description =>"PING",
 		 ensure => $kernel ? {
 		  "FreeBSD" => "absent",
 		  default => "present"
@@ -82,53 +82,55 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 command_line  => "${nagiosplugins}/check_swap -w 10% -c 2%",
 		 service_description => "SWAP",
 		 notification_options => "w,c,u",
-      dependent_service_description =>"PING",
-    ensure => $swap_present
-  }
-  nagios2_nrpe_service { "${fqdn}_check_diskspace":
-    command_name => "check_diskspace",
-		 command_line  => "${nagiosplugins}/check_disk -l -X devfs -X linprocfs -X devpts -X tmpfs -X usbfs -X proc -X sysfs -w 10% -c 5%",
-		 service_description => "DISKSPACE",
-		 notification_period => "workhours",
-    dependent_service_description =>"PING",
-  }
-
-  nagios2_service { "${fqdn}_nrpe_users":
-    service_description => "LOGGEDIN_USERS",
-			check_command => "check_nrpe_1arg!check_users",
-			notifications_enabled => "1",
-			notification_period => "workhours",
-			notification_options => "w,c,u",
-    dependent_service_description =>"PING",
-  }
-  nagios2_nrpe_service { "${fqdn}_nrpe_processes":
-    command_name => "check_procs",
-		 command_line => "${nagiosplugins}/check_procs -w 200 -c 250",
-		 service_description => "RUNNING_PROCS",
-		 notification_period => "workhours",
-		 notification_options => "w,c,u",
-    dependent_service_description =>"PING",
-  }
-  nagios2_service { "${fqdn}_nrpe_zombie_processes":
-    service_description => "ZOMBIE_PROCS",
-			check_command => "check_nrpe_1arg!check_zombie_procs",
-			notification_period => "workhours",
-    dependent_service_description =>"PING",
-  }
-  $crit_one = max(times($processorcount, "5.5"), "10")
-    $crit_five = max(times($processorcount, "5"),"15")
-    $crit_fifteen = max(times($processorcount, "4.5"),"20")
-
-    $warn_one = max(times($processorcount, "3.5"), "8")
-    $warn_five = max(times($processorcount, "3.0"), "9")
-    $warn_fifteen = max(times($processorcount, "2.5"), "10")
-    nagios2_nrpe_service { "${fqdn}_nrpe_load":
-      service_description => "LOAD",
-			  command_name => "check_load",
-			  command_line => "${nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
-			  notification_options => "w,c,u",
-      dependent_service_description =>"PING",
-    ensure => "absent",
+		 servicegroups => "Harddrives",
+		 dependent_service_description =>"PING",
+		 ensure => $swap_present
     }
+    nagios2_nrpe_service { "${fqdn}_check_diskspace":
+      command_name => "check_diskspace",
+		   command_line  => "${nagiosplugins}/check_disk -l -X devfs -X linprocfs -X devpts -X tmpfs -X usbfs -X proc -X sysfs -w 10% -c 5%",
+		   service_description => "DISKSPACE",
+		   notification_period => "workhours",
+		   servicegroups => "Harddrives",
+		   dependent_service_description =>"PING",
+    }
+
+    nagios2_service { "${fqdn}_nrpe_users":
+      service_description => "LOGGEDIN_USERS",
+			  check_command => "check_nrpe_1arg!check_users",
+			  notifications_enabled => "1",
+			  notification_period => "workhours",
+			  notification_options => "w,c,u",
+			  dependent_service_description =>"PING",
+    }
+    nagios2_nrpe_service { "${fqdn}_nrpe_processes":
+      command_name => "check_procs",
+		   command_line => "${nagiosplugins}/check_procs -w 200 -c 250",
+		   service_description => "RUNNING_PROCS",
+		   notification_period => "workhours",
+		   notification_options => "w,c,u",
+		   dependent_service_description =>"PING",
+    }
+    nagios2_service { "${fqdn}_nrpe_zombie_processes":
+      service_description => "ZOMBIE_PROCS",
+			  check_command => "check_nrpe_1arg!check_zombie_procs",
+			  notification_period => "workhours",
+			  dependent_service_description =>"PING",
+    }
+    $crit_one = max(times($processorcount, "5.5"), "10")
+      $crit_five = max(times($processorcount, "5"),"15")
+      $crit_fifteen = max(times($processorcount, "4.5"),"20")
+
+      $warn_one = max(times($processorcount, "3.5"), "8")
+      $warn_five = max(times($processorcount, "3.0"), "9")
+      $warn_fifteen = max(times($processorcount, "2.5"), "10")
+      nagios2_nrpe_service { "${fqdn}_nrpe_load":
+	service_description => "LOAD",
+			    command_name => "check_load",
+			    command_line => "${nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
+			    notification_options => "w,c,u",
+			    dependent_service_description =>"PING",
+			    ensure => "absent",
+      }
 }
 
