@@ -67,7 +67,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 service_description => "NFS_STALE",
 		 notification_period => "workhours",
 		 notification_options => "w,c,u",
-		 dependent_service_description =>"PING",
 		 ensure => $kernel ? {
 		  "FreeBSD" => "absent",
 		  default => "present"
@@ -83,7 +82,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		 service_description => "SWAP",
 		 notification_options => "w,c,u",
 		 servicegroups => "Harddrives",
-		 dependent_service_description =>"PING",
 		 ensure => $swap_present
     }
     nagios2_nrpe_service { "${fqdn}_check_diskspace":
@@ -92,7 +90,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		   service_description => "DISKSPACE",
 		   notification_period => "workhours",
 		   servicegroups => "Harddrives",
-		   dependent_service_description =>"PING",
     }
 
     nagios2_service { "${fqdn}_nrpe_users":
@@ -101,7 +98,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 			  notifications_enabled => "1",
 			  notification_period => "workhours",
 			  notification_options => "w,c,u",
-			  dependent_service_description =>"PING",
     }
     nagios2_nrpe_service { "${fqdn}_nrpe_processes":
       command_name => "check_procs",
@@ -109,13 +105,11 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		   service_description => "RUNNING_PROCS",
 		   notification_period => "workhours",
 		   notification_options => "w,c,u",
-		   dependent_service_description =>"PING",
     }
     nagios2_service { "${fqdn}_nrpe_zombie_processes":
       service_description => "ZOMBIE_PROCS",
 			  check_command => "check_nrpe_1arg!check_zombie_procs",
 			  notification_period => "workhours",
-			  dependent_service_description =>"PING",
     }
     $crit_one = max(times($processorcount, "5.5"), "10")
       $crit_five = max(times($processorcount, "5"),"15")
@@ -129,7 +123,6 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 			    command_name => "check_load",
 			    command_line => "${nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
 			    notification_options => "w,c,u",
-			    dependent_service_description =>"PING",
 			    ensure => "absent",
       }
 }

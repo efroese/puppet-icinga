@@ -30,7 +30,7 @@ define nagios2_service (
     $notifications_enabled="1",
     $contact_groups="IKW_admins",
     $stalking_options="",
-    $dependent_service_description="",
+    $dependent_service_description="PING",
     $inherits_parent="1",
     $execution_failure_criteria="w,u,c,p",
     $notification_failure_criteria="w,u,c,p",
