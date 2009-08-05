@@ -89,6 +89,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 		   command_line  => "${nagiosplugins}/check_disk -l -X devfs -X linprocfs -X devpts -X tmpfs -X usbfs -X procfs -X proc -X sysfs -w 10% -c 5%",
 		   service_description => "DISKSPACE",
 		   notification_period => "workhours",
+      notification_interval => "1440",
 		   servicegroups => "Harddrives",
     }
 
