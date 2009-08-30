@@ -6,8 +6,15 @@ class nagios::server{
       "nagios-images",
       "nagios-nrpe-plugin",
       "nagios3-common",
-      "nagios-plugins-standard" ]: ensure => present }
+      "nagios-plugins-standard" ]: ensure => present 
+    }
 
+  nagios2_service { "${fqdn}_mem_percent_nagios":
+              service_description => "mem_percent_nagios",
+                check_command => "check_ganglia!mem_percent_nagios!70!90",
+                servicegroups => "Memory",
+                notification_options => "c,u",
+            } 
 
   service{ "nagios3":
     ensure => running,
