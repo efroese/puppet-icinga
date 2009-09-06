@@ -11,7 +11,7 @@ class nagios::server{
 
   nagios2_service { "${fqdn}_mem_percent_nagios":
               service_description => "mem_percent_nagios",
-                check_command => "check_ganglia!mem_percent_nagios!70!90",
+                check_command => "check_ganglia!mem_percent_nagios!70!90!${ganglia_metaserver_ip}",
                 servicegroups => "Memory",
                 notification_options => "c,u",
             } 
