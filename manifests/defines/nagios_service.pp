@@ -36,17 +36,20 @@ define nagios2_service (
     $notification_failure_criteria="w,u,c,p",
     $multiple_values_array="",
     $multiple_insertin="",
+    $service_template="",
     $ensure="present"
     )
 {
   $host_name_real = downcase($host_name)
-
+  $tmpl = $service_template ? {
+    "" => "nagios/service.erb",
+      default => $service_template
+  }
     if $dependent_service_description == "" {
-      $content = template("nagios/service.erb")
+      $content = template("${tmpl}")
     }else {
-      $content = template("nagios/service.erb","nagios/servicedependency.erb")
+      $content = template("${tmpl}","nagios/servicedependency.erb")
     }
-
   nagios2file { "service_${service_description}_${name}":
     content => $content,
     ensure => $ensure,
