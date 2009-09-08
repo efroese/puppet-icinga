@@ -45,6 +45,7 @@ define nagios2_service (
     "" => "nagios/service.erb",
       default => $service_template
   }
+  #notice("${hostname} has template: ${tmpl}")
     if $dependent_service_description == "" {
       $content = template("${tmpl}")
     }else {
