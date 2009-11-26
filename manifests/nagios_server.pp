@@ -48,7 +48,22 @@ class nagios::server{
     mode=> "0644",
     notify => Service["nagios3"],
   }
-
+    
+  ### purge all resources
+#  resources{["nagios2_command", 
+#    "nagios2_host", 
+#    "nagios2_service",
+#    "nagios2_contact" ]:
+#    purge => true,
+#  }
+#  
+#  if ! defined(resources["file"]) {
+#    resources{["file"]:
+#        purge => true,
+#      noop => true,
+#      }
+#  }
+  
 ##some additional commands
   nagios2_command{"check-nfsv4":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -c2,3,4",
