@@ -117,7 +117,7 @@ class nagios::nsca::receiver {
 	   server_args => "-c /etc/nsca.cfg --inetd",
 	   user  => "nagios",
 	   group => "nagios",
-	   only_from => "127.0.0.1 munin.ikw.Uni-Osnabrueck.DE",
+	   only_from => "127.0.0.1 ganglia.ikw.Uni-Osnabrueck.DE",
 	   port => 5667,
 	   ensure => $presence_real,
   }
