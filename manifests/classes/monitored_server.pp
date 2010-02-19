@@ -78,7 +78,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   }
     nagios2_nrpe_service { "${fqdn}_nrpe_swap":
     command_name => "check_swap",
-		 command_line  => "${nagiosplugins}/check_swap -w 10% -c 2%",
+		 command_line  => "${nagiosplugins}/check_swap -w 3% -c 1%",
 		 service_description => "SWAP",
 		 notification_options => "w,c,u",
 		 servicegroups => "Harddrives,Memory",
