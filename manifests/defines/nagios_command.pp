@@ -34,10 +34,10 @@ define nagios2_nrpe_command (
   }
   case $sudo {
     "true": {
-      sudo::sudoer{"nagios_sudo_${hostname}_${cmd_real}":
-	user => "nagios",
-	host_name => $hostname,
-	command => "NOPASSWD: ${command_line}",
+      sudoers{"nagios_sudo_${hostname}_${cmd_real}":
+          hosts => "ALL",
+	users => "nagios",
+	commands => "NOPASSWD: ${command_line}",
 	ensure => $ensure,
       }
     }

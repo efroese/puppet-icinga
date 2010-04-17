@@ -291,10 +291,10 @@ define nagios2_nrpe_plugin (
   }
   case $sudo {
 true: {
-	sudo::sudoer{"nagios_${hostname}_${cmd_real}":
-	  user => "nagios",
-	       host_name => $hostname,
-	       command => "NOPASSWD: ${cmdline_real}",
+	sudoers{"nagios_${hostname}_${cmd_real}":
+	    hosts => "ALL",
+	  users => "nagios",
+	       commands => "NOPASSWD: ${cmdline_real}",
 	}
 	$command_line_real = "${sudobin} ${cmdline_real}"
       }
