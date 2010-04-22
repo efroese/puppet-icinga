@@ -19,7 +19,6 @@ define nagios2file(
   @@file { "${path_real}.cfg":
     ensure => $ensure,
     content => $content,
-    notify => Service["nagios3"],
     tag => "nagios",
     owner => "nagios",
     group => "www-data",
