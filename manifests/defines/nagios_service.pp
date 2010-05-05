@@ -279,6 +279,7 @@ define nagios2_nrpe_plugin (
     }
   $nagiosplugins = $operatingsystem ? {
     "FreeBSD" => "/usr/local/libexec/nagios",
+    "Darwin" => "/opt/local/libexec/nagios",
     default =>"/usr/lib/nagios/plugins",
   }
   $cmd_real = $command_name ? {

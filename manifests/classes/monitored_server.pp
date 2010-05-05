@@ -11,26 +11,51 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   tag("nagios")
     $nrpe_service = $operatingsystem ? {
       "FreeBSD" => "nrpe2",
+        "Darwin" => "org.macports.nrpe",
 	default =>"nagios-nrpe-server",
     }
+    $nrpe_package = $operatingsystem ? {
+  "FreeBSD" => "nrpe2",
+    "Darwin" => "nrpe",
+      default =>"nagios-nrpe-server",
+}
   $nagiosconf = $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nagios",
+    "Darwin" => "/opt/local/etc/nrpe",
       default =>"/etc/nagios",
   }
 
   $nrpebin = $operatingsystem ? {
     "FreeBSD" => "/usr/local/sbin/nrpe2",
+    "Darwin" => "/opt/local/sbin/nrpe",
       default =>"/usr/sbin/nrpe",
   }
   $nagiosplugins = $operatingsystem ? {
     "FreeBSD" => "/usr/local/libexec/nagios",
+    "Darwin" => "/opt/local/libexec/nagios",
       default =>"/usr/lib/nagios/plugins",
   }
   $nrpecfg =  $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nrpe.cfg",
+    "Darwin" => "/opt/local/etc/nrpe/nrpe.cfg",
       default =>"/etc/nagios/nrpe.cfg",
   }
-  package{ $nrpe_service:
+  $nrpecfg_local =  $operatingsystem ? {
+      "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
+      "Darwin" => "/opt/local/etc/nrpe/nrpe_local.cfg",
+        default =>"/etc/nagios/nrpe_local.cfg",
+    }
+  file{"${nrpecfg}":
+    content => template("nagios/nrpe.cfg.erb"),
+  }
+  file{"${nrpecfg_local}": }
+
+ if $kernel == "Darwin"{
+  Package { 
+    provider => "darwinport",
+  }
+  }
+  package{ $nrpe_package:
     ensure => installed,
   }
 
@@ -40,6 +65,11 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 	ensure => installed,
       }
     }
+    "Darwin": {
+      package{"nagios-plugins":
+      ensure => installed,
+      }
+    }
   }
   file{"${nagiosconf}/nrpe.d":
     ensure => "directory",
@@ -47,19 +77,32 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
 	   group => "nagios",
   }
   service{ $nrpe_service:
-    ensure => stopped,
-	   enable => false,
+    ensure => $kernel ? {
+      "Darwin" => running,
+        default => stopped
+    },
+	   enable => $kernel ? {
+    "Darwin" => true,
+      default => false
+  },
 	   hasrestart => false,
 	   pattern => "nrpe",
-	   require => Package["${nrpe_service}"],
+	   require => Package["${nrpe_package}"],
+    subscribe => [ File["${nagiosconf}/nrpe.d"], File["${nrpecfg}"], File["${nrpecfg_local}"] ],
   }
-
-  xinetd::service{"nrpe":
-    server => "${nrpebin}",
-	   server_args => "-c ${nrpecfg} --inetd",
-	   user  => "nagios",
-	   only_from => "127.0.0.1 ${NAGIOS_HOST}",
-	   port => 5666,
+  case $kernel {
+    "Darwin": {
+      debug ("not for darwin")
+    }
+    default: {
+      xinetd::service{"nrpe":
+         server => "${nrpebin}",
+          server_args => "-c ${nrpecfg} --inetd",
+          user  => "nagios",
+          only_from => "127.0.0.1 ${NAGIOS_HOST}",
+          port => 5666,
+       }      
+    }
   }
 #add apt nrpe service
   nagios2_nrpe_plugin { "${fqdn}_check_nfs_stale":
@@ -102,7 +145,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
     }
     nagios2_nrpe_service { "${fqdn}_nrpe_processes":
       command_name => "check_procs",
-		   command_line => "${nagiosplugins}/check_procs -w 200 -c 250",
+		   command_line => "${nagiosplugins}/check_procs -w 250 -c 350",
 		   service_description => "RUNNING_PROCS",
 		   notification_period => "workhours",
 		   notification_options => "w,c,u",

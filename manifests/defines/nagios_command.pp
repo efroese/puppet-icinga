@@ -48,6 +48,7 @@ define nagios2_nrpe_command (
   }
   $nagioscfg = $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
+    "Darwin" => "/opt/local/etc/nrpe/nrpe_local.cfg",
       default =>"/etc/nagios/nrpe_local.cfg",
   }
   if ($command_line_real != ""){

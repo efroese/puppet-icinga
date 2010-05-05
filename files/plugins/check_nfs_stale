@@ -23,7 +23,11 @@
 # Nagios plugins
 PROGNAME="check_nfs_stale"
 PATH="/usr/bin:/usr/sbin:/bin:/sbin"
-LIBEXEC="/usr/lib/nagios/plugins"
+if [ $(uname) == "Linux"]; then
+    LIBEXEC="/usr/lib/nagios/plugins"
+else
+    LIBEXEC="/opt/local/libexec/nagios"
+fi
 . $LIBEXEC/utils.sh
 
 
