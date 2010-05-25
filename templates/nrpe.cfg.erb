@@ -44,7 +44,7 @@ server_address=<%= ipaddress %>
 # 
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-nrpe_user=nagios
+nrpe_user=<%= nagios_user %>
 
 
 
@@ -54,7 +54,7 @@ nrpe_user=nagios
 # 
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-nrpe_group=nagios
+nrpe_group=<%= nagios_group %>
 
 
 

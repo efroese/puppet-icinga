@@ -10,15 +10,23 @@ class nagios::monitored::server inherits nagios::monitored::common {
 class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   tag("nagios")
     $nrpe_service = $operatingsystem ? {
-      "FreeBSD" => "nrpe2",
+        "FreeBSD" => "nrpe2",
         "Darwin" => "org.macports.nrpe",
-	default =>"nagios-nrpe-server",
+        default =>"nagios-nrpe-server",
     }
     $nrpe_package = $operatingsystem ? {
-  "FreeBSD" => "nrpe2",
-    "Darwin" => "nrpe",
-      default =>"nagios-nrpe-server",
-}
+        "FreeBSD" => "nrpe2",
+        "Darwin" => "nrpe",
+        default =>"nagios-nrpe-server",
+    }
+    $nagios_user = $operatingsystem ? {
+        "Darwin" => "daemon",
+        default =>"nagios",
+    }
+    $nagios_group = $operatingsystem ? {
+        "Darwin" => "daemon",
+          default => "nagios",
+    }
   $nagiosconf = $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nagios",
     "Darwin" => "/opt/local/etc/nrpe",
@@ -73,8 +81,8 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
   }
   file{"${nagiosconf}/nrpe.d":
     ensure => "directory",
-	   owner => "nagios",
-	   group => "nagios",
+	   owner => $nagios_user,
+	   group => $nagios_group,
   }
   service{ $nrpe_service:
     ensure => $kernel ? {
