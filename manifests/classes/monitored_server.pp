@@ -157,7 +157,7 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
     }
     nagios2_nrpe_service { "${fqdn}_nrpe_processes":
       command_name => "check_procs",
-		   command_line => "${nagiosplugins}/check_procs -w 250 -c 350",
+		   command_line => "${nagiosplugins}/check_procs -w 500 -c 900",
 		   service_description => "RUNNING_PROCS",
 		   notification_period => "workhours",
 		   notification_options => "w,c,u",
