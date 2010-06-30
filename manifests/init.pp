@@ -22,6 +22,7 @@ define nagios2file(
     tag => "nagios",
     owner => "nagios",
     group => "www-data",
+    notify => Service["nagios3"],
     mode => 0644,
   }
 }
