@@ -9,21 +9,21 @@ class nagios::monitored::common {
   nagios2_service { "${fqdn}_ping":
     service_description => "PING",
 			check_command => "check_ping!125.0,20%!500.0,60%",
-    dependent_service_description => "",
+			dependent_service_description => "",
   }
   case $kernel {
     "Linux": {
       $apt_present = "present"
     }
     default: {
-      $apt_present = "absent"
-    }
+	       $apt_present = "absent"
+	     }
   }
   nagios2_nsca_service { "${fqdn}_packages":
     service_description => "Pending packages",
 			notification_period => "workhours",
 			notification_options => "n",
-    ensure => absent,
+			ensure => absent,
   }
 
   nagios2_nrpe_service { "${fqdn}_nrpe_apt":
@@ -33,8 +33,8 @@ class nagios::monitored::common {
 		 normal_check_interval => "1440",
 		 notification_interval => "50400",
 		 notification_period => "workhours",
-		 notification_options => "w,c,u",
-		 ensure => absent,
+		 notification_options => "w,c",
+		 ensure => $apt_present,
   }
 
 }
