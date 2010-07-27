@@ -26,6 +26,7 @@ define nagios2file(
 #        $NAGIOS_HOST => Service["nagios3"],
 #    }
     mode => 0644,
+    purge => true,
   }
 }
 
