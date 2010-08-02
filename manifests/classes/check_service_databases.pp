@@ -7,7 +7,7 @@ class nagios::check::mysql {
 			notification_options => "w,c,u",
   }
   $nagioshost = gethostname($NAGIOS_HOST)
-    @@mysql_user{"nagios@${nagioshost}": ensure => "present", password_hash => "" }
+  mysql_user{"nagios@${nagioshost}": ensure => "present", password_hash => "" }
 }
 
 class nagios::check::pgsql {

@@ -28,7 +28,7 @@ class nagios::monitored::common {
 
   nagios2_nrpe_service { "${fqdn}_nrpe_apt":
     command_name => "check_apt",
-		 command_line => "${nagiosplugins}/check_apt",
+		 command_line => "${nagios::monitored::server::nrpe::nagiosplugins}/check_apt",
 		 service_description => "APT",
 		 normal_check_interval => "1440",
 		 notification_interval => "50400",
