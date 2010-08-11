@@ -34,7 +34,7 @@ class nagios::monitored::common {
 		 notification_interval => "50400",
 		 notification_period => "workhours",
 		 notification_options => "w,c",
-		 ensure => $apt_present,
+		 ensure => "absent",
   }
 
 }
