@@ -31,5 +31,5 @@ define nagios2file(
 }
 
 import "nagios_*.pp"
-import "defines/*pp"
+import "defines/*.pp"
 import "classes/*.pp"
