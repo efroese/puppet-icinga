@@ -22,9 +22,7 @@ define nagios2file(
     tag => "nagios",
     owner => "nagios",
     group => "www-data",
-#    notify => $ipaddress ? {
-#        $NAGIOS_HOST => Service["nagios3"],
-#    }
+    notify => Service["nagios3"],
     mode => 0644,
     purge => true,
   }
