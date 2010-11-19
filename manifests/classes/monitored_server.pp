@@ -167,13 +167,11 @@ nagios2_service { "${fqdn}_nrpe_zombie_processes":
 		      check_command => "check_nrpe_1arg!check_zombie_procs",
 		      notification_period => "workhours",
 }
-$processorcount_real = $kernel ? {
-  "Darwin" => $sp_number_processors,
-    default => $processorcount ? {
+$processorcount_real = $processorcount ? {
       "" => 1,
       default => $processorcount,
-    }
 }
+
 $crit_one = max(times($processorcount_real, "5.5"), "10")
 $crit_five = max(times($processorcount_real, "5"),"15")
 $crit_fifteen = max(times($processorcount_real, "4.5"),"20")
