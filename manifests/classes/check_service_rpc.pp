@@ -53,6 +53,19 @@ class nagios::check::nfs::quota inherits nagios::check::nfs {
   }
 }
 
+  class nagios::check::nfs::quota::none {
+    nagios2_service {"${fqdn}_rpc_quota":
+      service_description => "RPC_NFSQUOTA",
+        check_command => "check-rpc!quota",
+        ensure => "absent",
+    }
+    nagios2_service {"${fqdn}_rpc_quota-tcp":
+      service_description => "RPC_NFSQUOTATCP",
+        check_command => "check-rpc-tcp!quota",
+        ensure => "absent",
+    }
+  }
+
 class nagios::check::nfs::none inherits nagios::check::nfs::common::none {
 
   nagios2_service {"${fqdn}_rpc_quota":
