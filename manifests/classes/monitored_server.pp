@@ -62,6 +62,11 @@ class nagios::monitored::server::nrpe inherits nagios::monitored::server{
     Package { 
       provider => "darwinport",
     }
+  exec{"restart-nagios-nrpe":
+    command => "launchctl stop org.macports.nrpe && sleep 2 && launchctl stop org.macports.nrpe && launchctl start org.macports.nrpe",
+	    path => [ "/bin" ],
+	    schedule => "daily",
+  }
 }
 package{ $nrpe_package:
   ensure => installed,
@@ -168,8 +173,8 @@ nagios2_service { "${fqdn}_nrpe_zombie_processes":
 		      notification_period => "workhours",
 }
 $processorcount_real = $processorcount ? {
-      "" => 1,
-      default => $processorcount,
+  "" => 1,
+    default => $processorcount,
 }
 
 $crit_one = max(times($processorcount_real, "5.5"), "10")
