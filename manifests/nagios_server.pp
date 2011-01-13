@@ -28,8 +28,11 @@ class nagios::server{
   #  config => "[nagios-*]\nuser root\n",
   #}
 #collect all nagios_ definitions
+    if $ipaddress == $NAGIOS_HOST {
+        notice("${hostname}: collects NAGIOS configs.")
+        File <<| tag == "nagios" |>>
+    }
 
-  File <<| tag == "nagios" |>>
 
     file { $NAGIOSCONFDIR:
       ensure => directory,
