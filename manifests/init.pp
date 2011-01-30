@@ -9,14 +9,14 @@ define nagios2file(
     )
 {
 #nagios cannot read file with dots "."
-     
+
   $name_real = convert($name,'.','-')
     $path_real = $path ? {
       "" => "${NAGIOSCONFDIR}/${name_real}",
       default => $path,
     }
-     # notice ("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
-  @@file { "${path_real}.cfg":
+# notice ("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
+  file { "${path_real}.cfg":
     ensure => $ensure,
     content => $content,
     tag => "nagios",

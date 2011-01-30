@@ -41,17 +41,17 @@ define nagios2_service (
     )
 {
   $host_name_real = downcase($host_name)
-  $tmpl = $service_template ? {
-    "" => "nagios/service.erb",
+    $tmpl = $service_template ? {
+      "" => "nagios/service.erb",
       default => $service_template
-  }
-  #notice("${hostname} has template: ${tmpl}")
-    if $dependent_service_description == "" {
-      $content = template("${tmpl}")
-    }else {
-      $content = template("${tmpl}","nagios/servicedependency.erb")
     }
-  nagios2file { "service_${service_description}_${name}":
+#notice("${hostname} has template: ${tmpl}")
+  if $dependent_service_description == "" {
+    $content = template("${tmpl}")
+  }else {
+    $content = template("${tmpl}","nagios/servicedependency.erb")
+  }
+  @@nagios2file { "service_${service_description}_${name}":
     content => $content,
     ensure => $ensure,
   }
@@ -293,9 +293,9 @@ define nagios2_nrpe_plugin (
   case $sudo {
 true: {
 	sudoers{"nagios_${hostname}_${cmd_real}":
-	    hosts => "ALL",
-	  users => "nagios",
-	       commands => "NOPASSWD: ${cmdline_real}",
+	  hosts => "ALL",
+		users => "nagios",
+		commands => "NOPASSWD: ${cmdline_real}",
 	}
 	$command_line_real = "${sudobin} ${cmdline_real}"
       }

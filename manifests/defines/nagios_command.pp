@@ -10,7 +10,7 @@ define nagios2_command (
     "" => $name,
     default => $command_name,
   }
-  nagios2file { "command_${cmd_real}":
+  @@nagios2file { "command_${cmd_real}":
     content => template("nagios/command.erb"),
     ensure =>$ensure,
   }
@@ -35,7 +35,7 @@ define nagios2_nrpe_command (
   case $sudo {
     "true": {
       sudoers{"nagios_sudo_${hostname}_${cmd_real}":
-          hosts => "ALL",
+	hosts => "ALL",
 	users => "nagios",
 	commands => "NOPASSWD: ${command_line}",
 	ensure => $ensure,
@@ -48,7 +48,7 @@ define nagios2_nrpe_command (
   }
   $nagioscfg = $operatingsystem ? {
     "FreeBSD" => "/usr/local/etc/nrpe_local.cfg",
-    "Darwin" => "/opt/local/etc/nrpe/nrpe_local.cfg",
+      "Darwin" => "/opt/local/etc/nrpe/nrpe_local.cfg",
       default =>"/etc/nagios/nrpe_local.cfg",
   }
   if ($command_line_real != ""){

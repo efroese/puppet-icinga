@@ -36,7 +36,7 @@ define nagios2_host(
     if defined(Nagios2file["host_${host_name_real}"]){
       debug("already defined")
     }else{
-      nagios2file { "host_${host_name_real}":
+      @@nagios2file { "host_${host_name_real}":
 	content => template("nagios/host.erb"),
 	ensure =>$ensure,
       }
@@ -63,7 +63,7 @@ define nagios2_hostgroup (
     },
     default => $hostgroup_alias
   }
-  nagios2file { "hostgroup_${hostgroup_name_real}":
+  @@nagios2file { "hostgroup_${hostgroup_name_real}":
     content => template("nagios/hostgroup.erb"),
     ensure =>$ensure,
   }

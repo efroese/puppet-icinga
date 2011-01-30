@@ -10,28 +10,22 @@ class nagios::server{
     }
 
   nagios2_service { "${fqdn}_mem_percent_nagios":
-              service_description => "mem_percent_nagios",
-                check_command => "check_ganglia!mem_percent_nagios!70!90!${ganglia_metaserver_ip}",
-                servicegroups => "Memory",
-                notification_options => "c,u",
-		ensure => "absent",
-            } 
+    service_description => "mem_percent_nagios",
+    check_command => "check_ganglia!mem_percent_nagios!70!90!${ganglia_metaserver_ip}",
+    servicegroups => "Memory",
+    notification_options => "c,u",
+    ensure => "absent",
+  } 
 
   service{ "nagios3":
     ensure => running,
     require => Package["nagios3"],
     subscribe => File[$NAGIOSCONFDIR],
   }
-  #munin::remoteplugin{ ["nagios-hosts", "nagios-services", "nagios-hosts-checks", "nagios-latencies", "nagios-state-changes"]: 
-  #  ensure => "present",
-  #  source => "nagios/munin",
-  #  config => "[nagios-*]\nuser root\n",
-  #}
+
 #collect all nagios_ definitions
-    if $ipaddress == $NAGIOS_HOST {
-        notice("${hostname}: collects NAGIOS configs.")
-        File <<| tag == "nagios" |>>
-    }
+  notice("${hostname}: collects NAGIOS configs.")
+    Nagios2file <<| tag == "nagios" |>>
 
 
     file { $NAGIOSCONFDIR:
@@ -52,8 +46,8 @@ class nagios::server{
     mode=> "0644",
     notify => Service["nagios3"],
   }
-    
-  ### purge all resources
+
+### purge all resources
 #  resources{["nagios2_command", 
 #    "nagios2_host", 
 #    "nagios2_service",
@@ -67,7 +61,7 @@ class nagios::server{
 #      noop => true,
 #      }
 #  }
-  
+
 ##some additional commands
   nagios2_command{"check-nfsv4":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -c2,3,4",
@@ -82,7 +76,7 @@ class nagios::server{
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C nfs -t -c2,3",
   }
 
-  
+
   nagios2_command{"check-rpc-tcp":
     command_line => "/usr/lib/nagios/plugins/check_rpc -H \$HOSTADDRESS\$ -C \$ARG1\$ -t",
   }
@@ -97,13 +91,13 @@ class nagios::server{
   nagios2_hostgroup{["Physical","Xenu","Xen0","Kvm"]: }
   nagios2_hostgroup{["ppc","amd64","i386","x86_64"]: }
   $nagiosplugins = $operatingsystem ? {
-      "FreeBSD" => "/usr/local/libexec/nagios",
+    "FreeBSD" => "/usr/local/libexec/nagios",
       default =>"/usr/lib/nagios/plugins",
-    }
+  }
   file{"${nagiosplugins}/check_ganglia":
     source => "puppet:///ganglia/contrib/check_ganglia",
-      mode => 0755,
-   }  
+	   mode => 0755,
+  }  
 }
 
 
