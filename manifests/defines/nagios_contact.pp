@@ -33,7 +33,7 @@ define nagios2_contact (
     "" => $name,
     default => $contact_name
   }
-  @@nagios2file { "contact_${contact_name_real}":
+   nagios2file { "contact_${contact_name_real}":
     content => template("nagios/contact.erb"),
     ensure =>$ensure,
   }
@@ -57,7 +57,7 @@ define nagios2_contactgroup (
     "" => $name,
     default => $contactgroup_name
   }
-  @@nagios2file { "contactgroup_${contactgroup_name_real}":
+   nagios2file { "contactgroup_${contactgroup_name_real}":
     content => template("nagios/contactgroup.erb"),
     ensure =>$ensure,
   }

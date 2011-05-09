@@ -25,8 +25,8 @@ class nagios::server{
 
 #collect all nagios_ definitions
   notice("${hostname}: collects NAGIOS configs.")
-    Nagios2file <<| tag == "nagios" |>>
-
+    #Nagios2file <<| tag == "nagios" |>>
+    File <<| tag == "nagios" |>>
 
     file { $NAGIOSCONFDIR:
       ensure => directory,

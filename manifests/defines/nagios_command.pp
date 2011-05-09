@@ -10,7 +10,7 @@ define nagios2_command (
     "" => $name,
     default => $command_name,
   }
-  @@nagios2file { "command_${cmd_real}":
+  nagios2file { "command_${cmd_real}":
     content => template("nagios/command.erb"),
     ensure =>$ensure,
   }

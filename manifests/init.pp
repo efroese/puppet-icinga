@@ -15,8 +15,8 @@ define nagios2file(
       "" => "${NAGIOSCONFDIR}/${name_real}",
       default => $path,
     }
-# notice ("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
-  file { "${path_real}.cfg":
+    #notice("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
+  @@file { "${path_real}.cfg":
     ensure => $ensure,
     content => $content,
     tag => "nagios",
@@ -24,7 +24,7 @@ define nagios2file(
     group => "www-data",
     notify => Service["nagios3"],
     mode => 0644,
-    purge => true,
+   # purge => true,
   }
 }
 

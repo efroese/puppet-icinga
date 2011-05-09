@@ -11,7 +11,7 @@ define nagios2_servicegroup (
     "" => $name,
     default => $servicegroup_name,
   }
-  @@nagios2file { "servicegroup_${servicegroup_name_real}":
+   nagios2file { "servicegroup_${servicegroup_name_real}":
     content => template("nagios/servicegroup.erb"),
     ensure => $ensure,
   }

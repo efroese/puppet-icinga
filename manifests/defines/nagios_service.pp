@@ -51,7 +51,7 @@ define nagios2_service (
   }else {
     $content = template("${tmpl}","nagios/servicedependency.erb")
   }
-  @@nagios2file { "service_${service_description}_${name}":
+   nagios2file { "service_${service_description}_${name}":
     content => $content,
     ensure => $ensure,
   }
