@@ -24,7 +24,7 @@ define nagios2_host(
     $retain_status_information="",
     $retain_nonstatus_information ="",
     $contact_groups="IKW_admins",
-    $notification_interval="30",
+    $notification_interval="1440",
     $notification_period="24x7",
     $notification_options="d,u,r",
     $notifications_enabled="1",

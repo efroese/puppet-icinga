@@ -10,7 +10,6 @@ class nagios::monitored::common {
     service_description => "PING",
 			check_command => "check_ping!125.0,20%!500.0,60%",
 			dependent_service_description => "",
-    normal_check_interval => "10",
   }
   case $kernel {
     "Linux": {
