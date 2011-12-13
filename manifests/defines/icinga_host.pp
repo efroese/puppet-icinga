@@ -1,6 +1,6 @@
 #$Id$
 
-define nagios2_host(
+define icinga::host(
     $host_name="${fqdn}",
     $host_alias="${hostname}",
     $address="${ipaddress}",
@@ -23,7 +23,7 @@ define nagios2_host(
     $process_perf_data="",
     $retain_status_information="",
     $retain_nonstatus_information ="",
-    $contact_groups="IKW_admins",
+    $contact_groups="",
     $notification_interval="1440",
     $notification_period="24x7",
     $notification_options="d,u,r",
@@ -36,18 +36,18 @@ define nagios2_host(
     if defined(Nagios2file["host_${host_name_real}"]){
       debug("already defined")
     }else{
-       nagios2file { "host_${host_name_real}":
-	content => template("nagios/host.erb"),
+       icinga::object { "host_${host_name_real}":
+	content => template("icinga/host.erb"),
 	ensure =>$ensure,
       }
     }
 }
 
 
-define nagios2_hostgroup (
+define icinga::hostgroup (
     $hostgroup_name="",
     $hostgroup_alias="",
-    $members="gateway",
+    $members="",
     $ensure = "present"
     )
 {
@@ -63,9 +63,9 @@ define nagios2_hostgroup (
     },
     default => $hostgroup_alias
   }
-    notify {"${hostname} has hostgroup: ${hostgroup_name_real} ${ensure}": }
-  nagios2file { "hostgroup_${hostgroup_name_real}":
-    content => template("nagios/hostgroup.erb"),
+    debug("${hostname} has hostgroup: ${hostgroup_name_real} ${ensure}")
+  icinga::object { "hostgroup_${hostgroup_name_real}":
+    content => template("icinga/hostgroup.erb"),
     ensure =>$ensure,
   }
 }

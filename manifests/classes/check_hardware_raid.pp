@@ -1,14 +1,14 @@
 # $Id$
 
-class nagios::check::raid::software {
-  $prese_real = $presence ? { 
+class icinga::check::raid::software ($ensure="present") {
+  $prese_real = $ensure ? { 
     "absent" => "absent",
       default => $has_raid ? {
 	"false" => "absent",
-	default => "present"
+	default => $ensure
       }
   }
-  nagios2_nrpe_plugin {"${fqdn}_checkraid":
+  icinga::nrpe_plugin {"${fqdn}_checkraid":
     service_description => "CHECKRAID",
 			command_name => "check_raid",
 			servicegroups => "Harddrives",
@@ -16,20 +16,16 @@ class nagios::check::raid::software {
 			ensure => $prese_real,
   }
 }
-class nagios::check::raid::software::none {
-  $presence = "absent"
-    include nagios::check::raid::software
-}
 
-class nagios::check::raid::three_ware {
-  $prese_real = $presence ? { 
+class icinga::check::raid::three_ware ($ensure="present"){
+  $prese_real = $ensure ? { 
     "absent" => "absent",
       default => $has_raid ? {
 	"false" => "absent",
-	default => "present"
+	default => $ensure,
       }
   }
-  nagios2_nrpe_plugin {"${fqdn}_checkraid":
+  icinga::nrpe_plugin {"${fqdn}_checkraid":
     service_description => "CHECKRAID",
 			command_name => "check_3ware_raid",
 			notification_options => "w,c,u",
@@ -37,9 +33,5 @@ class nagios::check::raid::three_ware {
 			servicegroups => "Harddrives",
 			ensure => $prese_real,
   }
-}
-class nagios::check::raid::three_ware::none {
-  $presence = "absent"
-    include nagios::check::raid::three_ware
 }
 

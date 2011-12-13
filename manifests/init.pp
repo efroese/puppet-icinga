@@ -1,8 +1,8 @@
 # $Id$
 
-$NAGIOSCONFDIR="/etc/nagios3/conf.d"
+$NAGIOSCONFDIR="/etc/icinga/objects"
 
-define nagios2file(
+define icinga::object(
     $path="",
     $content,
     $ensure = "present"
@@ -19,14 +19,14 @@ define nagios2file(
   @@file { "${path_real}.cfg":
     ensure => $ensure,
     content => $content,
-    tag => "nagios",
     owner => "nagios",
     group => "www-data",
+    tag => "icinga_object",
     mode => 0644,
-   # purge => true,
+    purge => true,
   }
 }
 
-import "nagios_*.pp"
+import "icinga_*.pp"
 import "defines/*.pp"
 import "classes/*.pp"

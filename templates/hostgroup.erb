@@ -3,6 +3,8 @@
 define hostgroup{
   hostgroup_name <%= hostgroup_name_real %>
   alias          <%= hostgroup_alias_real %>
+  <%- if members != "" %>
   members        <%= members %>
+  <%- end %>
 }
 #EOF

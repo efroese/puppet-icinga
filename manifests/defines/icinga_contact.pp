@@ -14,7 +14,7 @@
 #  address1      xxxxx.xyyy@icq.com
 #  address2      555-555-5555
 #  }
-define nagios2_contact (
+define icinga::contact (
     $contact_name="",
     $contact_alias,
     $service_notification_period = "24x7",
@@ -33,8 +33,8 @@ define nagios2_contact (
     "" => $name,
     default => $contact_name
   }
-   nagios2file { "contact_${contact_name_real}":
-    content => template("nagios/contact.erb"),
+   icinga::object { "contact_${contact_name_real}":
+    content => template("icinga/contact.erb"),
     ensure =>$ensure,
   }
 
@@ -46,7 +46,7 @@ define nagios2_contact (
 # members members
 # }
 
-define nagios2_contactgroup (
+define icinga::contactgroup (
     $contactgroup_name="",
     $contactgroup_alias,
     $members,
@@ -57,8 +57,8 @@ define nagios2_contactgroup (
     "" => $name,
     default => $contactgroup_name
   }
-   nagios2file { "contactgroup_${contactgroup_name_real}":
-    content => template("nagios/contactgroup.erb"),
+   icinga::object { "contactgroup_${contactgroup_name_real}":
+    content => template("icinga/contactgroup.erb"),
     ensure =>$ensure,
   }
 }

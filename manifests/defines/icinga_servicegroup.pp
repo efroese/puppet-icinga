@@ -1,6 +1,6 @@
 # $Id$
 
-define nagios2_servicegroup (
+define icinga::servicegroup (
     $servicegroup_name="",
     $servicegroup_alias="",
     $servicegroup_members="",
@@ -11,8 +11,8 @@ define nagios2_servicegroup (
     "" => $name,
     default => $servicegroup_name,
   }
-   nagios2file { "servicegroup_${servicegroup_name_real}":
-    content => template("nagios/servicegroup.erb"),
+   icinga::object { "servicegroup_${servicegroup_name_real}":
+    content => template("icinga/servicegroup.erb"),
     ensure => $ensure,
   }
 }

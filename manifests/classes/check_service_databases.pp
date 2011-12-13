@@ -1,7 +1,7 @@
 # $Id$
 
-class nagios::check::mysql {
-  nagios2_service {"${fqdn}_mysql":
+class icinga::check::mysql {
+  icinga::service {"${fqdn}_mysql":
     service_description => "MYSQL",
 			check_command => "check_mysql",
 			notification_options => "w,c,u",
@@ -10,8 +10,8 @@ class nagios::check::mysql {
   mysql_user{"nagios@${nagioshost}": ensure => "present", password_hash => "" }
 }
 
-class nagios::check::pgsql {
-  nagios2_service {"${fqdn}_pgsql":
+class icinga::check::pgsql {
+  icinga::service {"${fqdn}_pgsql":
     service_description => "POSTGRESQL",
 			check_command => "check_pgsql2",
 			notification_options => "w,c,u",

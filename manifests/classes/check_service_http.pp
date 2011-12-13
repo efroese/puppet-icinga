@@ -1,102 +1,45 @@
 # $Id$
 
-
-class nagios::check::http::all{
-  nagios2_service{ "${fqdn}_http":
-    service_description => "HTTP",
-			check_command => "check_http!${ipaddress}!${ipaddress}",
-  }
-  nagios2_service{ "${fqdn}_https":
-    service_description => "HTTPS",
-			check_command => "check_https!${ipaddress}!${ipaddress}",
-  }
-
+class icinga::check::http::all ($ensure = "present") {
+  class{["icinga::check::http", "icinga::check::https"]:
+      ensure => $ensure,
+    }
 }
 
-class nagios::check::http{
-  nagios2_service{ "${fqdn}_http":
+class icinga::check::http ($ensure = "present") {
+    Icinga::Service { ensure => $ensure }
+  icinga::service{ "${fqdn}_http":
     service_description => "HTTP",
 			check_command => "check_http!${fqdn}!${ipaddress}",
   }
-  nagios2_service{ "${fqdn}_https":
-    service_description => "HTTPS",
-			check_command => "check_https!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
 }
 
-  class nagios::check::https {
+  class icinga::check::https ($ensure = "present") {
+      Icinga::Service { ensure => $ensure }
     $fqdn_real = downcase($fqdn)
-      nagios2_service{ "${fqdn}_https":
-	service_description => "HTTPS",
+      icinga::service{ "${fqdn}_https":
+	       service_description => "HTTPS",
 			    check_command => "check_https!${fqdn_real}!${ipaddress}",
       }
-    nagios2_service{ "${fqdn}_http":
-      service_description => "HTTP",
-			  check_command => "check_http!${fqdn_real}!${ipaddress}",
-			  ensure =>absent,
-    }
 
   }
 
-class nagios::check::http_tcp{
-  nagios2_service{ "${fqdn}_http":
-    service_description => "HTTP",
-			check_command => "check_http!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_https":
-    service_description => "HTTPS",
-			check_command => "check_https!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_http_tcp":
+class icinga::check::http_tcp($ensure="present"){
+    Icinga::Service { ensure => $ensure }
+  icinga::service{ "${fqdn}_http_tcp":
     service_description => "HTTPTCP",
 			check_command => "check_tcp!80",
   }
 }
 
-class nagios::check::http_tcp::all{
-  nagios2_service{ "${fqdn}_http":
-    service_description => "HTTP",
-			check_command => "check_http!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_https":
-    service_description => "HTTPS",
-			check_command => "check_https!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_http_tcp":
+class icinga::check::http_tcp::all($ensure="present"){
+  Icinga::Service { ensure => $ensure }
+  icinga::service{ "${fqdn}_http_tcp":
     service_description => "HTTPTCP",
 			check_command => "check_tcp!80",
   }
-  nagios2_service{ "${fqdn}_https_tcp":
+  icinga::service{ "${fqdn}_https_tcp":
     service_description => "HTTPSTCP",
 			check_command => "check_tcp!443",
-  }
-}
-
-class nagios::check::http::none{
-  nagios2_service{ "${fqdn}_http":
-    service_description => "HTTP",
-			check_command => "check_http!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_https":
-    service_description => "HTTPS",
-			check_command => "check_https!${fqdn}!${ipaddress}",
-			ensure => absent,
-  }
-  nagios2_service{ "${fqdn}_http_tcp":
-    service_description => "HTTPTCP",
-			check_command => "check_tcp!80",
-			ensure => absent,
-  }
-
-  nagios2_service{ "${fqdn}_https_tcp":
-    service_description => "HTTPSTCP",
-			check_command => "check_tcp!443",
-			ensure => absent,
   }
 }

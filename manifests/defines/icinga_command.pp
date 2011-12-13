@@ -1,6 +1,6 @@
 #$Id$
 
-define nagios2_command (
+define icinga::command (
     $command_name="",
     $command_line,
     $ensure = "present"
@@ -10,14 +10,14 @@ define nagios2_command (
     "" => $name,
     default => $command_name,
   }
-  nagios2file { "command_${cmd_real}":
-    content => template("nagios/command.erb"),
+  icinga::object { "command_${cmd_real}":
+    content => template("icinga/command.erb"),
     ensure =>$ensure,
   }
 
 }
 
-define nagios2_nrpe_command (
+define icinga::nrpe_command (
     $command_name="",
     $command_line,
     $ensure = "present",
@@ -34,7 +34,7 @@ define nagios2_nrpe_command (
   }
   case $sudo {
     "true": {
-      sudoers{"nagios_sudo_${hostname}_${cmd_real}":
+      sudoers{"icinga::sudo_${hostname}_${cmd_real}":
 	hosts => "ALL",
 	users => "nagios",
 	commands => "NOPASSWD: ${command_line}",
@@ -56,13 +56,6 @@ define nagios2_nrpe_command (
       file => "${nagioscfg}",
 	   line => "command[${cmd_real}]=${command_line_real}",
 	   ensure => $ensure,
-    }
-  }
-  if defined(Exec["cleanup_nrpe_local"]) != true {
-    exec{"cleanup_nrpe_local":
-      command => "/bin/sed -i -e '/^command\\[.*\\]=$/d' ${nagioscfg}",
-	      onlyif => "grep -qe '^command\\[.*\\]=$'",
-	      logoutput => true, 
     }
   }
 }

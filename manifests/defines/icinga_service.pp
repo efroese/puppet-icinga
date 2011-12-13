@@ -1,6 +1,6 @@
 # $Id$
 
-define nagios2_service (
+define icinga::service (
     $host_name="${fqdn}",
     $service_description,
     $servicegroups="",
@@ -28,7 +28,7 @@ define nagios2_service (
     $notification_period="24x7",
     $notification_options="w,u,c",
     $notifications_enabled="1",
-    $contact_groups="IKW_admins",
+    $contact_groups="",
     $stalking_options="",
     $dependent_service_description="PING",
     $inherits_parent="1",
@@ -42,23 +42,23 @@ define nagios2_service (
 {
   $host_name_real = downcase($host_name)
     $tmpl = $service_template ? {
-      "" => "nagios/service.erb",
+      "" => "icinga/service.erb",
       default => $service_template
     }
 #notice("${hostname} has template: ${tmpl}")
   if $dependent_service_description == "" {
     $content = template("${tmpl}")
   }else {
-    $content = template("${tmpl}","nagios/servicedependency.erb")
+    $content = template("${tmpl}","icinga/servicedependency.erb")
   }
-   nagios2file { "service_${service_description}_${name}":
+   icinga::object { "service_${service_description}_${name}":
     content => $content,
     ensure => $ensure,
   }
 }
 
 
-define nagios2_nsca_service (
+define icinga::nsca_service (
     $host_name="${fqdn}",
     $service_description,
     $servicegroups="",
@@ -84,7 +84,7 @@ define nagios2_nsca_service (
     $notification_period="24x7",
     $notification_options="w,u,c",
     $notifications_enabled="1",
-    $contact_groups="IKW_admins",
+    $contact_groups="",
     $stalking_options="",
     $dependent_service_description="",
     $inherits_parent="1",
@@ -95,7 +95,7 @@ define nagios2_nsca_service (
     $ensure="present"
     )
 {
-  nagios2_service{ "nagios_nsca_${service_description}_${host_name}":
+  icinga::service{ "icinga::nsca_${service_description}_${host_name}":
     host_name => $host_name,
     service_description => $service_description,
     servicegroups => $servicegroups,
@@ -136,7 +136,7 @@ define nagios2_nsca_service (
 
 }
 
-define nagios2_nrpe_service (
+define icinga::nrpe_service (
     $host_name="${fqdn}",
     $service_description,
     $servicegroups="",
@@ -165,7 +165,7 @@ define nagios2_nrpe_service (
     $notification_period="24x7",
     $notification_options="w,u,c",
     $notifications_enabled="1",
-    $contact_groups="IKW_admins",
+    $contact_groups="",
     $stalking_options="",
     $dependent_service_description="",
     $inherits_parent="1",
@@ -181,15 +181,15 @@ define nagios2_nrpe_service (
     "" => $name,
     default => $command_name,
   }
-  nagios2_nrpe_command{ "nagios_nrpe_${command_name}_${host_name}":
+  icinga::nrpe_command{ "icinga::nrpe_${command_name}_${host_name}":
     command_name => $cmd_real,
     command_line  => $command_line,
     ensure => $ensure,
-    tag => "nagios",
+    tag => "icinga",
     sudo => $sudo,
   }
 
-  nagios2_service{ "nagios_${cmd_real}_${host_name}":
+  icinga::service{ "icinga::${cmd_real}_${host_name}":
     host_name => $host_name,
     service_description => $service_description,
     servicegroups => $servicegroups,
@@ -226,11 +226,11 @@ define nagios2_nrpe_service (
     multiple_values_array => $multiple_values_array,
     multiple_insertin => $multiple_insertin,
     ensure => $ensure,
-    tag => "nagios"
+    tag => "icinga"
   }
 }
 
-define nagios2_nrpe_plugin (
+define icinga::nrpe_plugin (
     $host_name="${fqdn}",
     $service_description,
     $servicegroups="",
@@ -260,7 +260,7 @@ define nagios2_nrpe_plugin (
     $notification_period="24x7",
     $notification_options="w,u,c,r",
     $notifications_enabled="1",
-    $contact_groups="IKW_admins",
+    $contact_groups="",
     $stalking_options="",
     $dependent_service_description="",
     $inherits_parent="1",
@@ -292,7 +292,7 @@ define nagios2_nrpe_plugin (
   }
   case $sudo {
 true: {
-	sudoers{"nagios_${hostname}_${cmd_real}":
+	sudoers{"icinga::${hostname}_${cmd_real}":
 	  hosts => "ALL",
 		users => "nagios",
 		commands => "NOPASSWD: ${cmdline_real}",
@@ -313,9 +313,9 @@ false:{
     mode => "0755",
 	 source => "${source}/${cmd_real}",
 	 ensure => $ensure,
-	 module => "nagios",
+	 module => "icinga",
   }
-  nagios2_nrpe_service{ "nagios_${cmd_real}_${host_name}":
+  icinga::nrpe_service{ "icinga::${cmd_real}_${host_name}":
     host_name => $host_name,
 	      service_description => $service_description,
 	      servicegroups => $servicegroups,
