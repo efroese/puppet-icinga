@@ -197,6 +197,6 @@ command[check_zombie_procs]=<%= nagiosplugins %>/check_procs -w 5 -c 10 -s Z
 #
 # local configuration:
 #	if you'd prefer, you can instead place directives here
-#include=<%= scope.lookupvar("nrpecfg_local") %>
-include_dir=<%= scope.lookupvar("nrpe_d") %>
+include=<%= scope.lookupvar("nrpecfg_local") %>
+#include_dir=<%= scope.lookupvar("nrpe_d") %>
 

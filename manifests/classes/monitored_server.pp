@@ -98,6 +98,12 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
             owner => $nagios_user,
             group => $nagios_group,
     }
+    exec{"generate-nrpe.cfg":
+        command => "cat ${nagiosconf}/nrpe.d/* >${nagiosconf}/nrpe_local.cfg",
+        refreshonly => true,
+        subscribe => File["${nagiosconf}/nrpe.d"],
+        notify => Service[$nrpe_service],
+        }
     service {
         $nrpe_service :
             ensure => running,

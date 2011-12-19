@@ -48,8 +48,9 @@ define icinga::nrpe_command ($command_name = "",
         file {
             "${nrpe_d}/${name}.cfg" :
                 #file => "${nagioscfg}",
-                content => "##PUPPET##\ncommand[${cmd_real}]=${command_line_real}\n",
+                content => "command[${cmd_real}]=${command_line_real}\n",
                 ensure => $ensure,
+                notify => Exec["generate-nrpe.cfg"]
         }
     }
 }
