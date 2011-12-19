@@ -36,7 +36,7 @@ class icinga::monitored::common {
         "${fqdn}_nrpe_apt" :
             command_name => "check_apt",
             command_line =>
-            "${icinga::monitored::server::nrpe::nagiosplugins}/check_apt",
+            "/usr/lib/nagios/plugins/check_apt",
             service_description => "APT",
             normal_check_interval => "1440",
             notification_interval => "50400",

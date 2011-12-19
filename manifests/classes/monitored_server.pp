@@ -102,8 +102,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
         $nrpe_service :
             ensure => running,
             enable => true,
-            hasrestart => false,
-            pattern => "nrpe",
+            pattern => '.*sbin/nrpe.*',
             require => Package["${nrpe_package}"],
             subscribe => [File["${nagiosconf}/nrpe.d"], File["${nrpecfg}"],
             File["${nrpecfg_local}"]],
