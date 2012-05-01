@@ -3,7 +3,9 @@ class icinga::master ($ensure = "present", $nagios_conf_dir) {
 
     class { 'icinga::repos': }
 
-    package { ["icinga-core", "icinga-phpapi", "icinga-idoutils", 'libdbi', 'libdbi-drivers'] :
+    package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui',
+               'icinga-idoutils', 'libdbi', 'libdbi-drivers',
+               'nagios-plugins-all', ] :
         ensure => $ensure,
         require => Class['Icinga::Repos'],
     }
@@ -14,14 +16,14 @@ class icinga::master ($ensure = "present", $nagios_conf_dir) {
     }
 
     ### ICINGA WEB2 #####
-    package { ["php-pear", "php5-xsl", "php5-ldap", "php5-pgsql", "php5-mysql", "php5-xmlrpc"] :
-        ensure => $ensure,
-    }
+    #package { ["php-pear", "php5-xsl", "php5-ldap", "php5-pgsql", "php5-mysql", "php5-xmlrpc"] :
+    #    ensure => $ensure,
+    #}
 
     service { "icinga" :
         ensure => running,
-        enable => 1,
-        require => Package["icinga-core"],
+        enable => true,
+        require => Package["icinga"],
         subscribe => File[$nagios_conf_dir],
     }
 
