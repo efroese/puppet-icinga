@@ -39,7 +39,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
         "Darwin" => "/opt/local/sbin/nrpe",
         default => "/usr/sbin/nrpe",
     }
-    $nagiosplugins = $operatingsystem ? {
+    $icinga::nagiosplugins = $operatingsystem ? {
         "FreeBSD" => "/usr/local/libexec/nagios",
         "Darwin" => "/opt/local/libexec/nagios",
         default => "/usr/lib/nagios/plugins",
@@ -136,7 +136,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
     icinga::nrpe_service {
         "${fqdn}_nrpe_swap" :
             command_name => "check_swap",
-            command_line => "${nagiosplugins}/check_swap -w 3% -c 1%",
+            command_line => "${icinga::nagiosplugins}/check_swap -w 3% -c 1%",
             service_description => "SWAP",
             notification_options => "w,c,u",
             servicegroups => "Harddrives,Memory",
@@ -146,7 +146,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
         "${fqdn}_check_diskspace" :
             command_name => "check_diskspace",
             command_line =>
-            "${nagiosplugins}/check_disk -l -X devfs -X linprocfs -X devpts -X tmpfs -X usbfs -X procfs -X proc -X sysfs -X iso9660 -X debugfs -X binfmt_misc -X udf -X devtmpfs -X securityfs -X fusectl -w 10% -c 5%",
+            "${icinga::nagiosplugins}/check_disk -l -X devfs -X linprocfs -X devpts -X tmpfs -X usbfs -X procfs -X proc -X sysfs -X iso9660 -X debugfs -X binfmt_misc -X udf -X devtmpfs -X securityfs -X fusectl -w 10% -c 5%",
             service_description => "DISKSPACE",
             notification_period => "workhours",
             notification_interval => "1440",
@@ -163,7 +163,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
     icinga::nrpe_service {
         "${fqdn}_nrpe_processes" :
             command_name => "check_procs",
-            command_line => "${nagiosplugins}/check_procs -w 500 -c 900",
+            command_line => "${icinga::nagiosplugins}/check_procs -w 500 -c 900",
             service_description => "RUNNING_PROCS",
             notification_period => "workhours",
             notification_options => "w,c,u",
@@ -189,7 +189,7 @@ class icinga::monitored::server::nrpe ($ensure = "present") {
             service_description => "LOAD",
             command_name => "check_load",
             command_line =>
-            "${nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
+            "${icinga::nagiosplugins}/check_load -w ${warn_one},${warn_five},${warn_fifteen} -c ${crit_one},${crit_five},${crit_fifteen}",
             notification_options => "w,c,u",
             ensure => $ensure,
     }
