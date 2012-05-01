@@ -28,6 +28,6 @@ define icinga::object ($path = "",
     }
 }
 
-import "icinga_*.pp"
+import "master.pp"
 import "defines/*.pp"
 import "classes/*.pp"
