@@ -24,15 +24,12 @@ define icinga::nrpe_command ($command_name = "",
         "FreeBSD" => "/usr/local/bin/sudo",
         default => "/usr/bin/sudo",
     }
-    case $sudo {
-        "true" : {
-            sudoers {
-                "icinga::sudo_${hostname}_${cmd_real}" :
-                    hosts => "ALL",
-                    users => "nagios",
-                    commands => "NOPASSWD: ${command_line}",
-                    ensure => $ensure,
-            }
+    if $sudo == "true" {
+        sudoers { "icinga::sudo_${hostname}_${cmd_real}":
+            hosts => "ALL",
+            users => "nagios",
+            commands => "NOPASSWD: ${command_line}",
+            ensure => $ensure,
         }
     }
     $command_line_real = $sudo ? {
