@@ -69,9 +69,4 @@ class icinga::master (
          "${nagios_conf_dir}/extinfo_icinga.cfg"] :
             ensure => absent,
     }
-    
-    $nagiosplugins = $operatingsystem ? {
-        "FreeBSD" => "/usr/local/libexec/nagios",
-        default => "/usr/lib/nagios/plugins",
-    }
 }

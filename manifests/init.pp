@@ -6,6 +6,12 @@ $nrpe_d = $operatingsystem ? {
     "Darwin" => "/opt/local/etc/nrpe/nrpe.d",
     default => "/etc/nagios/nrpe.d",
 }
+
+$nagiosplugins = $operatingsystem ? {
+    "FreeBSD" => "/usr/local/libexec/nagios",
+    default => "/usr/lib/nagios/plugins",
+}
+
 define icinga::object ($path = "",
     $content,
     $ensure = "present") {
