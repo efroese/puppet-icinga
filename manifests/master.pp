@@ -3,9 +3,14 @@ class icinga::master ($ensure = "present", $nagios_conf_dir) {
 
     class { 'icinga::repos': }
 
-    package { ["icinga-core", "icinga-phpapi", "icinga-idoutils"] :
+    package { ["icinga-core", "icinga-phpapi", "icinga-idoutils", 'libdbi', 'libdbi-drivers'] :
         ensure => $ensure,
         require => Class['Icinga::Repos'],
+    }
+
+    package { [ 'gcc', 'glibc', 'glibc-common', 'gd', 'gd-devel',
+                'libjpeg', 'libjpeg-devel', 'libpng', 'libpng-devel' ]:
+        ensure => $ensure
     }
 
     ### ICINGA WEB2 #####
