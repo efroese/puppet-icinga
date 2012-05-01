@@ -28,6 +28,13 @@ define icinga::object ($path = "",
     }
 }
 
+user { 'icinga':
+    groups => ['icinga', 'icinga-cmd'],
+    require => [Group['icinga'], Group['icinga-cmd'], ],
+}
+
+group { ['icinga', 'icinga-cmd', ]: }
+
 import "master.pp"
 import "defines/*.pp"
 import "classes/*.pp"
