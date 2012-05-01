@@ -1,6 +1,8 @@
 # $Id$
 class icinga::master ($ensure = "present", $nagios_conf_dir) {
-    
+
+    class { 'icinga::repos' }
+
     package { ["icinga-core", "icinga-phpapi", "icinga-idoutils"] :
         ensure => $ensure,
         require => Class['Icinga::Repos'],
