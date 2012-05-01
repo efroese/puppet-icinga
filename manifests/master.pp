@@ -16,8 +16,11 @@ class icinga::master ($ensure = "present", $nagios_conf_dir) {
         subscribe => File[$nagios_conf_dir],
     }
 
-    file { $nagios_conf_dir :
-        ensure => directory,
+    # might already be defined by a nagios module
+    if ! defined(File[$nagios_conf_dir]) {
+        file { $nagios_conf_dir :
+            ensure => directory,
+        }
     }
 
     #collect all nagios_ definitions
