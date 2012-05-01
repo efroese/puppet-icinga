@@ -34,7 +34,7 @@ class icinga::master (
     #    ensure => $ensure,
     #}
 
-    file { '/etc/icinga/ido2db.cfg',
+    file { '/etc/icinga/ido2db.cfg':
         ensure => present,
         owner => icinga,
         group => icinga,
