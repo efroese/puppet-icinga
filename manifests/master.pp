@@ -11,7 +11,7 @@ class icinga::master ($ensure = "present", $nagios_conf_dir) {
 
     service { "icinga" :
         ensure => running,
-        enabled => 1,
+        enable => 1,
         require => Package["icinga-core"],
         subscribe => File[$nagios_conf_dir],
     }
