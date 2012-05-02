@@ -8,7 +8,7 @@ class icinga::master (
     $db_name       = 'icinga',
     $db_user       = 'icinga',
     $db_pass       = 'icinga',
-    $icinga_cfg_template = 'icinga/icinga.cfg.erb'
+    $icinga_cfg_template = 'icinga/icinga.cfg.erb',
     $ido2db_template     = 'icinga/ido2db.cfg.erb'
     ) {
 

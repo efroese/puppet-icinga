@@ -12,7 +12,7 @@ define icinga::command ($command_name = "",
             ensure => $ensure,
     }
 }
-å
+
 define icinga::nrpe_command ($command_name = "",
     $command_line,
     $ensure = "present",
