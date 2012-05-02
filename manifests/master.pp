@@ -30,9 +30,9 @@ class icinga::master (
     }
 
     ### ICINGA WEB2 #####
-    #package { ["php-pear", "php5-xsl", "php5-ldap", "php5-pgsql", "php5-mysql", "php5-xmlrpc"] :
-    #    ensure => $ensure,
-    #}
+    package { ["php-pear", "php5-xsl", "php5-ldap", "php5-pgsql", "php5-mysql", "php5-xmlrpc"]:
+        ensure => $ensure,
+    }
 
     file { '/etc/icinga/ido2db.cfg':
         ensure => present,
