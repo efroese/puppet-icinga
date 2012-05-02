@@ -1,0 +1,20 @@
+##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
+define timeperiod {
+    timeperiod_name    <%= name %>
+    alias              <%= timeperiod_alias %>
+    <% if not includes.empty? -%>
+    <% includes.each do |key, value| %>
+    <%= key %>      <%= value %>
+    <% end %>
+    <% end -%>
+    
+    <% if not exceptions.empty? -%>
+    <% exceptions.each do |key, value| %>
+    <%= key %>      <%= value %>
+    <% end %>
+    <% end -%>
+    
+    <% if not excludes.empty? -%>
+    excludes <%= excludes.join(',') %>
+    <% end -%>
+}
