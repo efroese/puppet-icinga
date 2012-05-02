@@ -39,6 +39,7 @@ define icinga::nrpe_command ($command_name = "",
     $nrpe_d = $operatingsystem ? {
         "FreeBSD" => "/usr/local/etc/nrpe.d",
         "Darwin" => "/opt/local/etc/nrpe/nrpe.d",
+        /CentOS|RedHat/ => '/etc/nrpe.d',
         default => "/etc/nagios/nrpe.d",
     }
     if ($command_line_real != "") {
@@ -47,7 +48,6 @@ define icinga::nrpe_command ($command_name = "",
                 #file => "${nagioscfg}",
                 content => "command[${cmd_real}]=${command_line_real}\n",
                 ensure => $ensure,
-                notify => Exec["generate-nrpe.cfg"]
         }
     }
 }
