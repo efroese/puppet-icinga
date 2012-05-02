@@ -5,7 +5,7 @@ define icinga::timeperiod (
     $exceptions = {},
     $excludes = []) {
         
-    $countent = template('icinga/timeperiod.erb')
+    $content = template('icinga/timeperiod.erb')
     
     icinga::object {
         "timeperiod_${service_description}_${name}" :
