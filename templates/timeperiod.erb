@@ -3,18 +3,18 @@ define timeperiod {
     timeperiod_name    <%= name %>
     alias              <%= timeperiod_alias %>
     <% if not includes.empty? -%>
-    <% includes.each do |key, value| %>
-    <%= key %>      <%= value %>
+    <% includes.keys.sort.each do |key| %>
+    <%= key %>      <%= includes[value] %>
     <% end %>
     <% end -%>
     
     <% if not exceptions.empty? -%>
-    <% exceptions.each do |key, value| %>
-    <%= key %>      <%= value %>
+    <% exceptions.keys.sort.each do |key| %>
+    <%= key %>      <%= exceptions[value] %>
     <% end %>
     <% end -%>
     
     <% if not excludes.empty? -%>
-    excludes <%= excludes.join(',') %>
+    excludes <%= excludes.sort.join(',') %>
     <% end -%>
 }
