@@ -2,7 +2,7 @@
 
 class icinga {
 
-    $nagios_conf_dir="/etc/icinga/objects"
+    $nagios_conf_dir="/etc/icinga/objects.d"
 
     $nrpe_d = $operatingsystem ? {
         "FreeBSD" => "/usr/local/etc/nrpe.d",
