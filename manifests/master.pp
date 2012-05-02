@@ -32,6 +32,7 @@ class icinga::master (
     ### ICINGA WEB2 #####
     package { ['php', 'php-cli', 'php-pear', 'php-xmlrpc', 'php-xsl', 'php-pdo', 'php-gd', 'php-ldap', 'php-mysql', 'perl-Locale-PO']:
         ensure => $ensure,
+        require => Class['Icinga::Repos'],
     }
 
     package { 'icinga-web-1.6.1-1.el6.noarch':
