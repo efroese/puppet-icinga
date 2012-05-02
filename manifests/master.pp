@@ -30,8 +30,13 @@ class icinga::master (
     }
 
     ### ICINGA WEB2 #####
-    package { ["php-pear", "php5-xsl", "php5-ldap", "php5-pgsql", "php5-mysql", "php5-xmlrpc"]:
+    package { ['php', 'php-cli', 'php-pear', 'php-xmlrpc', 'php-xsl', 'php-pdo', 'php-gd', 'php-ldap', 'php-mysql', 'perl-Locale-PO']:
         ensure => $ensure,
+    }
+
+    package { 'icinga-web-1.6.1-1.el6.noarch':
+        source => 'http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/icinga-web-1.6.1-1.el6.noarch.rpm',
+        ensure => installed,
     }
 
     file { '/etc/icinga/ido2db.cfg':

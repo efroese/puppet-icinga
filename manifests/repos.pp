@@ -8,11 +8,6 @@ class icinga::repos {
                 provider => 'rpm',
             }
 
-            package { 'remi-release-6':
-                ensure => installed,
-                source => 'http://rpms.famillecollet.com/enterprise/remi-release-6.rpm',
-                provider => 'rpm',
-            }
         }
     }
 }
