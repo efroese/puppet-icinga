@@ -8,10 +8,18 @@ class icinga::master (
     $db_name       = 'icinga',
     $db_user       = 'icinga',
     $db_pass       = 'icinga',
-    $ido2db_template = 'icinga/ido2db.cfg.erb'
+    $icinga_cfg_template = 'icinga/icinga.cfg.erb'
+    $ido2db_template     = 'icinga/ido2db.cfg.erb'
     ) {
 
     class { 'icinga::repos': }
+
+    user { 'icinga':
+        groups => ['icinga', 'icingacmd'],
+        require => [Group['icinga'], Group['icingacmd'], ],
+    }
+
+    group { ['icinga', 'icingacmd', ]: }
 
     package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui',
                'icinga-idoutils', 'libdbi', 'libdbi-drivers', ] :
@@ -46,6 +54,14 @@ class icinga::master (
         group => icinga,
         mode  => 664,
         content => template($ido2db_template),
+    }
+
+    file { '/etc/icinga/icinga.cfg':
+        ensure => present,
+        owner => icinga,
+        group => icinga,
+        mode  => 664,
+        content => template($icinga_cfg_template),
     }
 
     service { "icinga" :
