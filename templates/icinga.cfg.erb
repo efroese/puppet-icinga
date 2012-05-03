@@ -57,7 +57,7 @@ log_file=/var/log/icinga/icinga.log
 # Definitions for broker modules like idoutils.cfg
 cfg_dir=/etc/icinga/modules
 
-cfg_dir=<%= scope.lookupvar('icinga::nagios_conf_dir') %>
+cfg_dir=<%= scope.lookupvar('icinga::params::nagios_conf_dir') %>
 
 
 # OBJECT CACHE FILE

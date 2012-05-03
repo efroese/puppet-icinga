@@ -12,6 +12,10 @@ class icinga::master (
     $ido2db_template     = 'icinga/ido2db.cfg.erb'
     ) {
 
+    class { 'icinga::params':
+        nagios_conf_dir => $nagios_conf_dir
+    }
+
     class { 'icinga::repos': }
 
     user { 'icinga':

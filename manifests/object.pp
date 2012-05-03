@@ -10,7 +10,7 @@ define icinga::object (
     #nagios cannot read file with dots "."
     $name_real = regsubst($name, '\.', '-')
     $path_real = $path ? {
-        "" => "${icinga::nagios_conf_dir}/${name_real}",
+        "" => "${icinga::params::nagios_conf_dir}/${name_real}",
         default => $path,
     }
     #notice("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
