@@ -13,7 +13,10 @@ class icinga::server (
 
     Class['Icinga::Params'] -> Class['Icinga::Server']
 
-    class { 'icinga::params': }
+    if ! defined(Class['Icinga::Params']){
+        class { 'icinga::params': }
+    }
+
     class { 'icinga::repos': }
 
     user { 'icinga':
