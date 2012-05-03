@@ -1,18 +1,3 @@
-#$Id$
-define icinga::command ($command_name = "",
-    $command_line,
-    $ensure = "present") {
-    $cmd_real = $command_name ? {
-        "" => $name,
-        default => $command_name,
-    }
-    icinga::object {
-        "command_${cmd_real}" :
-            content => template("icinga/command.erb"),
-            ensure => $ensure,
-    }
-}
-
 define icinga::nrpe_command ($command_name = "",
     $command_line,
     $ensure = "present",
@@ -26,11 +11,11 @@ define icinga::nrpe_command ($command_name = "",
         default => "/usr/bin/sudo",
     }
 
-    if $sudo == "true" {
+    if $sudo == true {
         sudoers { "icinga::sudo_${hostname}_${cmd_real}":
             hosts => "ALL",
             users => "nagios",
-            commands => "NOPASSWD: ${command_line}",
+            commands => " NOPASSWD: ${command_line}",
             ensure => $ensure,
         }
     }
@@ -43,7 +28,7 @@ define icinga::nrpe_command ($command_name = "",
     $nrpe_d = $operatingsystem ? {
         "FreeBSD" => "/usr/local/etc/nrpe.d",
         "Darwin" => "/opt/local/etc/nrpe/nrpe.d",
-        /CentOS|RedHat/ => '/etc/nrpe.d',
+        /CentOS|RedHat|Amazon/ => '/etc/nrpe.d',
         default => "/etc/nagios/nrpe.d",
     }
 

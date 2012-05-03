@@ -1,16 +1,9 @@
-# $Id$
-
-class icinga(
-    $nagios_conf_dir="/etc/icinga/objects.d",
-    ) {
-
-    $nagiosplugins = $architecture ? {
-        x86_64  => '/usr/lib64/nagios/plugins',
-        default => '/usr/lib/nagios/plugins',
-    }
-}
-
-define icinga::object ($path = "",
+#
+# = Class icinga::object
+# This object packages up an icinga object as a file and exports it. 
+#
+define icinga::object (
+    $path = "",
     $content,
     $ensure = "present") {
 
@@ -31,6 +24,3 @@ define icinga::object ($path = "",
         purge => true,
     }
 }
-
-import "defines/*.pp"
-import "classes/*.pp"
