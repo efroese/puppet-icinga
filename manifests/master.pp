@@ -1,7 +1,6 @@
 # $Id$
 class icinga::master (
     $ensure = "present",
-    $nagios_conf_dir,
     $db_servertype = 'mysql',
     $db_host       = 'localhost',
     $db_port       = '3306',
@@ -12,10 +11,7 @@ class icinga::master (
     $ido2db_template     = 'icinga/ido2db.cfg.erb'
     ) {
 
-    class { 'icinga::params':
-        nagios_conf_dir => $nagios_conf_dir
-    }
-
+    class { 'icinga::params': }
     class { 'icinga::repos': }
 
     user { 'icinga':
@@ -72,12 +68,12 @@ class icinga::master (
         ensure => running,
         enable => true,
         require => Package["icinga"],
-        subscribe => File[$nagios_conf_dir],
+        subscribe => File[$icinga::params::nagios_conf_dir],
     }
 
     # might already be defined by a nagios module
-    if ! defined(File[$nagios_conf_dir]) {
-        file { $nagios_conf_dir :
+    if ! defined(File[$icinga::params::nagios_conf_dir]) {
+        file { $icinga::params::nagios_conf_dir :
             ensure => directory,
         }
     }
@@ -89,10 +85,10 @@ class icinga::master (
     } 
 
     file {
-        ["${nagios_conf_dir}/localhost_icinga.cfg",
-         "${nagios_conf_dir}/hostgroups_icinga.cfg",
-         "${nagios_conf_dir}/services_icinga.cfg",
-         "${nagios_conf_dir}/extinfo_icinga.cfg"] :
+        ["${icinga::params::nagios_conf_dir}/localhost_icinga.cfg",
+         "${icinga::params::nagios_conf_dir}/hostgroups_icinga.cfg",
+         "${icinga::params::nagios_conf_dir}/services_icinga.cfg",
+         "${icinga::params::nagios_conf_dir}/extinfo_icinga.cfg"] :
             ensure => absent,
     }
 }

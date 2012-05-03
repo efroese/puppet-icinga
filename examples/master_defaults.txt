@@ -2,7 +2,6 @@ node 'mymaster.local' {
 
     class { 'icinga::master'
         ensure => present,
-        nagios_conf_dir = "/etc/nagios/conf.d"
     }
 
     Icinga::Hostgroup {
