@@ -20,7 +20,7 @@ class icinga::nsca::receiver (
 
     service { "nsca" :
         ensure => running,
-        enabled => true,
+        enable => true,
         require => Package["nagios-nsca"],
     }
 
