@@ -86,7 +86,7 @@ use_ssl=0
 
 
 #db_servertype=mysql
-db_servertype=<%= scope.lookupvar('icinga::db_servertype') %>
+db_servertype=<%= scope.lookupvar('icinga::server::db_servertype') %>
 
 
 
@@ -95,7 +95,7 @@ db_servertype=<%= scope.lookupvar('icinga::db_servertype') %>
 # Note: Oracle will ignore this setting
 
 #db_host=localhost
-db_host=<%= scope.lookupvar('icinga::db_host') %>
+db_host=<%= scope.lookupvar('icinga::server::db_host') %>
 
 
 
@@ -109,7 +109,7 @@ db_host=<%= scope.lookupvar('icinga::db_host') %>
 # Note: ocilib will ignore this, you have to modify your tnsnames.ora
 
 #db_port=3306
-db_port=<%= scope.lookupvar('icinga::db_port') %>
+db_port=<%= scope.lookupvar('icinga::server::db_port') %>
 
 
 
@@ -134,7 +134,7 @@ db_port=<%= scope.lookupvar('icinga::db_port') %>
 #	SID
 
 #db_name=icinga
-db_name=<%= scope.lookupvar('icinga::db_name') %>
+db_name=<%= scope.lookupvar('icinga::server::db_name') %>
 
 
 # DATABASE TABLE PREFIX
@@ -155,9 +155,9 @@ db_prefix=icinga_
 # the database.
 
 #db_user=icinga
-db_user=<%= scope.lookupvar('icinga::db_user') %>
+db_user=<%= scope.lookupvar('icinga::server::db_user') %>
 #db_pass=icinga
-db_pass=<%= scope.lookupvar('icinga::db_pass') %>
+db_pass=<%= scope.lookupvar('icinga::server::db_pass') %>
 
 
 ## TABLE TRIMMING OPTIONS
