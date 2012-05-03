@@ -1,4 +1,6 @@
-class nagios::nsca::sender ($ensure = "present") {
+class nagios::nsca::sender(
+    $ensure = "present"
+    $icinga_receiver) {
 
     package { "nsca" :
         ensure => $ensure
@@ -17,7 +19,7 @@ class nagios::nsca::sender ($ensure = "present") {
 
     file_line { "munin_nsca_sender_command" :
         file => "/etc/munin/munin.conf",
-        line => "contact.nagios.command /usr/sbin/send_nsca -H ${NAGIOS_HOST} -to 60 -c /etc/send_nsca.cfg",
+        line => "contact.nagios.command /usr/sbin/send_nsca -H ${icinga_receiver} -to 60 -c /etc/send_nsca.cfg",
         ensure => $ensure,
     }
 }

@@ -11,15 +11,14 @@ class icinga::nsca::receiver ($ensure = "present") {
         require => Package["nsca"],
     }
 
-    xinetd::service {
-        "nsca" :
-            server => "/usr/sbin/nsca",
-            server_args => "-c /etc/nsca.cfg --inetd",
-            user => "nagios",
-            group => "nagios",
-            only_from => "127.0.0.1 ganglia.ikw.Uni-Osnabrueck.DE",
-            port => 5667,
-            ensure => $ensure,
+    xinetd::service { "nsca" :
+        server => "/usr/sbin/nsca",
+        server_args => "-c /etc/nsca.cfg --inetd",
+        user => "nagios",
+        group => "nagios",
+        only_from => "127.0.0.1 ganglia.ikw.Uni-Osnabrueck.DE",
+        port => 5667,
+        ensure => $ensure,
     }
 
     icinga::service { "${fqdn}_nsca_receiver" :
