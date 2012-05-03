@@ -2,23 +2,14 @@ class icinga::nsca::receiver ($ensure = "present") {
 
     notice("NSCA should be \"${ensure}\"")
 
-    package { "nsca" :
+    package { "nagios-nsca" :
         ensure => $ensure
     }
 
     service { "nsca" :
-        ensure => "stopped",
-        require => Package["nsca"],
-    }
-
-    xinetd::service { "nsca" :
-        server => "/usr/sbin/nsca",
-        server_args => "-c /etc/nsca.cfg --inetd",
-        user => "nagios",
-        group => "nagios",
-        only_from => "127.0.0.1 ganglia.ikw.Uni-Osnabrueck.DE",
-        port => 5667,
-        ensure => $ensure,
+        ensure => running,
+        enabled => true,
+        require => Package["nagios-nsca"],
     }
 
     icinga::service { "${fqdn}_nsca_receiver" :
