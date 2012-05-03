@@ -1,5 +1,5 @@
 # $Id$
-class icinga::master (
+class icinga::server (
     $ensure = "present",
     $db_servertype = 'mysql',
     $db_host       = 'localhost',
@@ -10,6 +10,8 @@ class icinga::master (
     $icinga_cfg_template = 'icinga/icinga.cfg.erb',
     $ido2db_template     = 'icinga/ido2db.cfg.erb'
     ) {
+
+    Class['Icinga::Params'] -> Class['Icinga::Server']
 
     class { 'icinga::params': }
     class { 'icinga::repos': }
