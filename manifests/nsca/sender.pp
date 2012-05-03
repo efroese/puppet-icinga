@@ -2,13 +2,13 @@ class nagios::nsca::sender(
     $ensure = "present"
     $icinga_receiver) {
 
-    package { "nsca" :
+    package { "nagios-nsca" :
         ensure => $ensure
     }
 
     service { "nsca" :
         ensure => "stopped",
-        require => Package["nsca"],
+        require => Package["nagios-nsca"],
     }
 
     file_line { "munin_nsca_sender" :
