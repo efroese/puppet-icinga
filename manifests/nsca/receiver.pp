@@ -3,7 +3,7 @@ class icinga::nsca::receiver (
     $nsca_cfg = 'icinga/nsca.cfg.erb'
     ) {
 
-    Class[Icinga] -> Class['Icinga::Nsca::Receiver']
+    Class['Icinga::params'] -> Class['Icinga::Nsca::Receiver']
 
     notice("NSCA should be \"${ensure}\"")
 
@@ -32,7 +32,7 @@ class icinga::nsca::receiver (
 
     icinga::command { "dummy_command_for_nsca" :
         command_name => "check_dummy",
-        command_line => "${icinga::nagiosplugins}/check_dummy \$ARG1\$ \$ARG2\$",
+        command_line => '$USER1$/check_dummy $ARG1$ $ARG2$',
         ensure => "present",
     }
 }
