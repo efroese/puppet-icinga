@@ -4,13 +4,13 @@ define timeperiod {
     alias              <%= timeperiod_alias %>
     <% if not includes.empty? -%>
     <% includes.keys.sort.each do |key| %>
-    <%= key %>      <%= includes[value] %>
+    <%= key %>      <%= includes[key] %>
     <% end %>
     <% end -%>
     
     <% if not exceptions.empty? -%>
     <% exceptions.keys.sort.each do |key| %>
-    <%= key %>      <%= exceptions[value] %>
+    <%= key %>      <%= exceptions[key] %>
     <% end %>
     <% end -%>
     
