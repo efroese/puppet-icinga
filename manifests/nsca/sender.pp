@@ -1,4 +1,4 @@
-class nagios::nsca::sender(
+class icinga::nsca::sender(
     $ensure = "present",
     $nsca_receiver) {
 
