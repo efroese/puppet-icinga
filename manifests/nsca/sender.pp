@@ -1,6 +1,7 @@
-class icinga::nsca::sender ($munin_enabled=false)(
+class icinga::nsca::sender (
     $ensure = "present",
-    $nsca_receiver) {
+    $nsca_receiver,
+    $munin_enabled = false) {
 
     package { "nagios-nsca" :
         ensure => $ensure
