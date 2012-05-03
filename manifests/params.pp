@@ -4,7 +4,7 @@
 #
 class icinga::params {
     
-    $nagios_conf_dir = '/etc/icings/objects.d'
+    $nagios_conf_dir = '/etc/icinga/objects.d'
 
     $nagiosplugins = $architecture ? {
         x86_64  => '/usr/lib64/nagios/plugins',
