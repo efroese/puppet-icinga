@@ -1,6 +1,6 @@
 class nagios::nsca::sender(
-    $ensure = "present"
-    $icinga_receiver) {
+    $ensure = "present",
+    $nsca_receiver) {
 
     package { "nagios-nsca" :
         ensure => $ensure
