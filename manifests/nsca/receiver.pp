@@ -1,9 +1,21 @@
-class icinga::nsca::receiver ($ensure = "present") {
+class icinga::nsca::receiver (
+    $ensure = "present",
+    $nsca_cfg = 'icinga/nsca.cfg.erb'
+    ) {
+
+    Class[Icinga] -> Class['Icinga::Nsca::Receiver']
 
     notice("NSCA should be \"${ensure}\"")
 
     package { "nagios-nsca" :
         ensure => $ensure
+    }
+
+    file { '/etc/nagios/nsca.cfg':
+        owner => root,
+        group => root,
+        mode  => 0644,
+        content => template($nsca_cfg)
     }
 
     service { "nsca" :
@@ -20,7 +32,7 @@ class icinga::nsca::receiver ($ensure = "present") {
 
     icinga::command { "dummy_command_for_nsca" :
         command_name => "check_dummy",
-        command_line => "/usr/lib/nagios/plugins/check_dummy \$ARG1\$ \$ARG2\$",
+        command_line => "${icinga::nagiosplugins}/check_dummy \$ARG1\$ \$ARG2\$",
         ensure => "present",
     }
 }
