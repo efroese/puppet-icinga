@@ -10,4 +10,14 @@ class icinga::params {
         x86_64  => '/usr/lib64/nagios/plugins',
         default => '/usr/lib/nagios/plugins',
     }
+
+    $eventhandlers = $architecture ? {
+        x86_64  => '/usr/lib64/icinga/eventhandlers',
+        default => '/usr/lib/icinga/eventhandlers',
+    }
+
+    file { $eventhandlers:
+        ensure => directory,
+        mode => 0755,
+    }
 }

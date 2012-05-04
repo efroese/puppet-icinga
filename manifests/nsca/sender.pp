@@ -12,6 +12,19 @@ class icinga::nsca::sender (
         require => Package["nagios-nsca"],
     }
 
+    file { "${icinga::params::eventhandlers}/submit_result_check":
+        owner => root,
+        group => root,
+        mode  => 0755,
+        content => template('icinga/submit_check_result.erb'),
+    }
+
+    icinga::command { 'submit_check_result':
+        ensure => present,
+        command_line => "${icinga::params::eventhandlers}/submit_check_result \$HOSTNAME\$ '\$SERVICEDESC\$' \$SERVICESTATE\$ '\$SERVICEOUTPUT\$'",
+        require => File["${icinga::params::eventhandlers}/submit_result_check"],
+    }
+
     if $munin_enabled == true {
         file_line { "munin_nsca_sender" :
             path => "/etc/munin/munin.conf",
