@@ -13,10 +13,11 @@ define icinga::contactgroup (
 {
   $contactgroup_name_real = $contactgroup_name ?{
     "" => $name,
-    default => $contactgroup_name
+    default => $contactgroup_name,
   }
    icinga::object { "contactgroup_${contactgroup_name_real}":
     content => template("icinga/contactgroup.erb"),
-    ensure =>$ensure,
+    ensure => $ensure,
+    tag    => 'icinga_basic_object',
   }
 }

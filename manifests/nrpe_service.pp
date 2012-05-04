@@ -86,6 +86,5 @@ define icinga::nrpe_service ($host_name = "${fqdn}",
             multiple_values_array => $multiple_values_array,
             multiple_insertin => $multiple_insertin,
             ensure => $ensure,
-            tag => "icinga"
     }
 }

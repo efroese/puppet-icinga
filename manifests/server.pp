@@ -8,7 +8,9 @@ class icinga::server (
     $db_user       = 'icinga',
     $db_pass       = 'icinga',
     $icinga_cfg_template = 'icinga/icinga.cfg.erb',
-    $ido2db_template     = 'icinga/ido2db.cfg.erb'
+    $ido2db_template     = 'icinga/ido2db.cfg.erb',
+    $active_services     = true,
+    $passive_services    = true,
     ) {
 
     Class['Icinga::Params'] -> Class['Icinga::Server']
@@ -83,11 +85,27 @@ class icinga::server (
         }
     }
 
-    #collect all nagios_ definitions
-    File <<| tag == "icinga_object" |>> {
+    # Collect basic icinga objects
+    File <<| tag == 'icinga_basic_object' |>> {
         notify => Service["icinga"],
         purge => true
-    } 
+    }
+
+    # Collect active icinga services
+    if $active_services == true {
+        File <<| tag == 'icinga_active_service' |>> {
+            notify => Service["icinga"],
+            purge => true
+        }
+    }
+
+    # Collect passive icinga services
+    if $passive_services == true {
+        File <<| tag == 'icinga_passive_service' |>> {
+            notify => Service["icinga"],
+            purge => true
+        }
+    }
 
     file {
         ["${icinga::params::nagios_conf_dir}/localhost_icinga.cfg",

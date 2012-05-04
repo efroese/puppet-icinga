@@ -10,5 +10,6 @@ define icinga::command ($command_name = "",
         "command_${cmd_real}" :
             content => template("icinga/command.erb"),
             ensure => $ensure,
+            tag    => 'icinga_basic_object',
     }
 }

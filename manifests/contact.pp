@@ -36,6 +36,7 @@ define icinga::contact (
    icinga::object { "contact_${contact_name_real}":
     content => template("icinga/contact.erb"),
     ensure =>$ensure,
+    tag    => 'icinga_basic_object',
   }
 
 }

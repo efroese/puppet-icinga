@@ -35,6 +35,7 @@ define icinga::service ($host_name = "${fqdn}",
     $multiple_values_array = "",
     $multiple_insertin = "",
     $service_template = "",
+    $tag = "icinga_active_service",
     $ensure = "present") {
     $host_name_real = downcase($host_name)
     $tmpl = $service_template ? {
@@ -52,5 +53,6 @@ define icinga::service ($host_name = "${fqdn}",
         "service_${service_description}_${name}" :
             content => $content,
             ensure => $ensure,
+            tag => $tag,
     }
 }

@@ -5,7 +5,8 @@
 define icinga::object (
     $path = "",
     $content,
-    $ensure = "present") {
+    $ensure = "present",
+    $tag = "") {
 
     #nagios cannot read file with dots "."
     $name_real = regsubst($name, '\.', '-')
@@ -19,7 +20,10 @@ define icinga::object (
         content => $content,
         owner => "icinga",
         group => "apache",
-        tag => 'icinga_object',
+        tag => $tag ? {
+            "" => 'icinga_object'
+            default => [ $tag, 'icinga_object' ],
+        },
         mode => 0644,
         purge => true,
     }

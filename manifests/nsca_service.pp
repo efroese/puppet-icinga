@@ -72,6 +72,7 @@ define icinga::nsca_service ($host_name = "${fqdn}",
             notification_failure_criteria => $notification_failure_criteria,
             multiple_values_array => $multiple_values_array,
             multiple_insertin => $multiple_insertin,
+            tag => 'icinga_passive_service',
             ensure => $ensure,
     }
 }
