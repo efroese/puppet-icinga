@@ -93,7 +93,7 @@ class icinga::server (
 
     # Collect active icinga services
     if $active_services == true {
-        File <<| tag == 'icinga_active_service' |>> {
+        File <<| tag == "icinga_active_${::fqdn}" |>> {
             notify => Service["icinga"],
             purge => true
         }
@@ -101,7 +101,7 @@ class icinga::server (
 
     # Collect passive icinga services
     if $passive_services == true {
-        File <<| tag == 'icinga_passive_service' |>> {
+        File <<| tag == "icinga_passive_${::fqdn}" |>> {
             notify => Service["icinga"],
             purge => true
         }

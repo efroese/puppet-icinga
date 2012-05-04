@@ -1,5 +1,15 @@
 #
+# = Define icinga::nsca_service
+# Export a file representing a passive service check submitted to a central
+# server via NSCA.
 #
+# == Parameters
+# Most of the paramaters are taken right from the nagios/icinga
+# object definitions. Refer to the docs for their meanings.
+#
+# $tags:: If you tag an object with icinga_passive_${::fqdn} then only the
+#   icinga server at ${::fqdn} will store a passive service check
+#   You can also pass other arbitrary tags in an array.
 #
 define icinga::nsca_service ($host_name = "${fqdn}",
     $service_description,
@@ -34,6 +44,7 @@ define icinga::nsca_service ($host_name = "${fqdn}",
     $notification_failure_criteria = "w,u,c,p",
     $multiple_values_array = "",
     $multiple_insertin = "",
+    $tags = "",
     $ensure = "present") {
     icinga::service {
         "icinga::nsca_${service_description}_${host_name}" :
@@ -72,7 +83,7 @@ define icinga::nsca_service ($host_name = "${fqdn}",
             notification_failure_criteria => $notification_failure_criteria,
             multiple_values_array => $multiple_values_array,
             multiple_insertin => $multiple_insertin,
-            tag => 'icinga_passive_service',
+            tags => $tags,
             ensure => $ensure,
     }
 }

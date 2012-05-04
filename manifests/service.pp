@@ -1,4 +1,15 @@
-# $Id$
+#
+# = Define icinga::service
+# Export an Icinga service configuration file resource
+#
+# == Parameters
+# Most of the paramaters are taken right from the nagios/icinga
+# object definitions. Refer to the docs for their meanings.
+#
+# $tags:: If you tag an object with icinga_active_${::fqdn} then only the
+#   icinga server at ${::fqdn} will execute the active service check
+#   You can also pass other arbitrary tags in an array.
+#
 define icinga::service ($host_name = "${fqdn}",
     $service_description,
     $servicegroups = "",
@@ -35,7 +46,7 @@ define icinga::service ($host_name = "${fqdn}",
     $multiple_values_array = "",
     $multiple_insertin = "",
     $service_template = "",
-    $tag = "icinga_active_service",
+    $tags = "",
     $ensure = "present") {
     $host_name_real = downcase($host_name)
     $tmpl = $service_template ? {
@@ -49,10 +60,12 @@ define icinga::service ($host_name = "${fqdn}",
     else {
         $content = template("${tmpl}", "icinga/servicedependency.erb")
     }
-    icinga::object {
-        "service_${service_description}_${name}" :
-            content => $content,
-            ensure => $ensure,
-            tag => $tag,
+    icinga::object { "service_${service_description}_${name}" :
+        content => $content,
+        ensure => $ensure,
+        tag => $tags ? {
+            "" => 'icinga_object',
+            default => [ 'icinga_object', $tags ],
+        },
     }
 }
