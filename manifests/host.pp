@@ -29,6 +29,7 @@ define icinga::host(
     $notification_options="d,u,r",
     $notifications_enabled="1",
     $stalking_options="",
+    $tags = "",
     $ensure = "present"
     )
 {
@@ -39,7 +40,10 @@ define icinga::host(
     icinga::object { "host_${host_name_real}":
 	  content => template("icinga/host.erb"),
 	  ensure  => $ensure,
-	  tag     => 'icinga_basic_object',
+	  tag     => $tags ? {
+        "" => 'icinga_host',
+        default => [ 'icinga_host', $tags ],
+	  },
     }
   }
 }

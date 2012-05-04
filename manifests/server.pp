@@ -85,8 +85,16 @@ class icinga::server (
         }
     }
 
-    # Collect basic icinga objects
+    # Collect basic icinga objects. The things all icinga servers in a distributed setup share.
+    # commands, timeperiods, contacts, servicegroups, hostgroups, macros, ...
     File <<| tag == 'icinga_basic_object' |>> {
+        notify => Service["icinga"],
+        purge => true
+    }
+
+    # Collect the icinga hosts for this server
+    # nodes should tag their icinga::host with the local and central nagios fqdns
+    File <<| tag == "icinga_host_${::fqdn}" |>> {
         notify => Service["icinga"],
         purge => true
     }
