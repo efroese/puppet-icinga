@@ -21,7 +21,7 @@ define icinga::object (
         owner => "icinga",
         group => "apache",
         tag => $tag ? {
-            "" => 'icinga_object'
+            "" => 'icinga_object',
             default => [ $tag, 'icinga_object' ],
         },
         mode => 0644,
