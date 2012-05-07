@@ -12,8 +12,8 @@ class icinga::params {
     }
 
     $eventhandlers = $architecture ? {
-        x86_64  => '/usr/lib64/icinga/eventhandlers',
-        default => '/usr/lib/icinga/eventhandlers',
+        x86_64  => '/usr/lib64/nagios/eventhandlers',
+        default => '/usr/lib/nagios/eventhandlers',
     }
 
     file { $eventhandlers:
