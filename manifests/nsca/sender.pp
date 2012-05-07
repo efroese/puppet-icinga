@@ -22,7 +22,7 @@ class icinga::nsca::sender (
     icinga::command { 'submit_check_result':
         ensure => present,
         command_line => "${icinga::params::eventhandlers}/submit_check_result \$HOSTNAME\$ '\$SERVICEDESC\$' \$SERVICESTATE\$ '\$SERVICEOUTPUT\$'",
-        require => File["${icinga::params::eventhandlers}/submit_result_check"],
+        require => File["${icinga::params::eventhandlers}/submit_check_result"],
     }
 
     if $munin_enabled == true {
