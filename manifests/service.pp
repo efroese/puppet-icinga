@@ -63,7 +63,7 @@ define icinga::service ($host_name = "${fqdn}",
     icinga::object { "service_${service_description}_${name}" :
         content => $content,
         ensure => $ensure,
-        tag => $tags ? {
+        icinga_tags => $tags ? {
             "" => 'icinga_object',
             default => [ 'icinga_object', $tags ],
         },

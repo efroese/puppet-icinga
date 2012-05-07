@@ -6,7 +6,7 @@ define icinga::object (
     $path = "",
     $content,
     $ensure = "present",
-    $tag = "") {
+    $icinga_tags = "") {
 
     #nagios cannot read file with dots "."
     $name_real = regsubst($name, '\.', '-')
@@ -14,16 +14,19 @@ define icinga::object (
         "" => "${icinga::params::nagios_conf_dir}/${name_real}",
         default => $path,
     }
+
+    $the_tags = $icinga_tags ? {
+        "" => [ 'icinga_object' ],
+        default => split(inline_template("<%= icinga_tags.flatten.join(',') %>"),','),
+    }
+  
     #notice("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
     @@file { "${path_real}.cfg" :
         ensure => $ensure,
         content => $content,
         owner => "icinga",
         group => "apache",
-        tag => $tag ? {
-            "" => 'icinga_object',
-            default => [ $tag, 'icinga_object' ],
-        },
+        tag => $the_tags,
         mode => 0644,
         purge => true,
     }

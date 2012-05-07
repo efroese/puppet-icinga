@@ -37,13 +37,14 @@ define icinga::host(
   if defined(Nagios2file["host_${host_name_real}"]){
     debug("already defined")
   } else {
-    icinga::object { "host_${host_name_real}":
-	  content => template("icinga/host.erb"),
-	  ensure  => $ensure,
-	  tag     => $tags ? {
+    $the_tags = $tags ? {
         "" => 'icinga_host',
         default => [ 'icinga_host', $tags ],
-	  },
+    }
+    icinga::object { "host_${host_name_real}":
+      content => template("icinga/host.erb"),
+      ensure  => $ensure,
+      icinga_tags => $the_tags,
     }
   }
 }
