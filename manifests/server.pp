@@ -28,8 +28,8 @@ class icinga::server (
 
     group { ['icinga', 'icingacmd', ]: }
 
-    package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui',
-               'icinga-idoutils', 'libdbi', 'libdbi-drivers', ] :
+    package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui', 'icinga-idoutils',
+                'libdbi', 'libdbi-drivers', 'libdbi-dbd-mysql', ] :
         ensure => $ensure,
         require => Class['Icinga::Repos'],
     }
@@ -75,7 +75,17 @@ class icinga::server (
         ensure => running,
         enable => true,
         require => Package["icinga"],
-        subscribe => File[$icinga::params::nagios_conf_dir],
+        subscribe => [
+            File['/etc/icinga/icinga.cfg'],
+            File[$icinga::params::nagios_conf_dir],
+        ],
+    }
+
+    service { "ido2db" :
+        ensure => running,
+        enable => true,
+        require => Package["icinga"],
+        subscribe => File['/etc/icinga/ido2db.cfg'],
     }
 
     # might already be defined by a nagios module
