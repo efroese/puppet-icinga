@@ -5,8 +5,6 @@ class icinga::nsca::receiver (
 
     Class['Icinga::params'] -> Class['Icinga::Nsca::Receiver']
 
-    notice("NSCA should be \"${ensure}\"")
-
     package { "nagios-nsca" :
         ensure => $ensure
     }

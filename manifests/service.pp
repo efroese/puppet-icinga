@@ -10,7 +10,7 @@
 #   icinga server at ${::fqdn} will execute the active service check
 #   You can also pass other arbitrary tags in an array.
 #
-define icinga::service ($host_name = "${fqdn}",
+define icinga::service ($host_name = $::fqdn,
     $service_description,
     $servicegroups = "",
     $is_volatile = "",
