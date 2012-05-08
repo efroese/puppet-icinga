@@ -10,15 +10,17 @@ class icinga::newweb(
         require => Class['Icinga::Repos'],
     }
 
-    package { 'icinga-web-1.6.1-1.el6.noarch':
-        source => 'http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/icinga-web-1.6.1-1.el6.noarch.rpm',
+    $icinga_pkg = 'icinga-web-1.6.1-1.el6.noarch'
+
+    package { $icinga_pkg:
+        source => "http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/${icinga_pkg}.rpm",
         provider => rpm,
         ensure => installed,
     }
 
     exec { 'icinga-create-newweb-mysqldb':
         command => "mysql --user=${db_user} --password=${db_pass} ${db_name} < /usr/share/icinga-web/etc/schema/mysql.sql",
-        unless  => "mysql --user=${db_user}--password=${db_pass} ${db_name} -e 'describe nsm_user_role'",
-        require => Package['icinga-web-1.6.1-1.el6.noarch'],
+        unless  => "mysql --user=${db_user} --password=${db_pass} ${db_name} -e 'describe nsm_user_role'",
+        require => Package[$icinga_pkg],
     }
 }
