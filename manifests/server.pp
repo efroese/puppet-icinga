@@ -64,7 +64,7 @@ class icinga::server (
 
     exec { 'icinga-create-mysqldb':
         command => "mysql --user=${db_user} --password=${db_pass} ${db_name} < /etc/icinga/idoutils/mysql/mysql.sql",
-        unless  => "mysql --user=${db_user}--password=${db_pass} ${db_name} -e 'describe icinga_dbversion'",
+        unless  => "mysql --user=${db_user} --password=${db_pass} ${db_name} -e 'describe icinga_dbversion'",
         require => [ Package['icinga-idoutils'], Package['icinga'] ],
     }
 
