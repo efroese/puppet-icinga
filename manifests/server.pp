@@ -11,7 +11,6 @@ class icinga::server (
     $ido2db_template     = 'icinga/ido2db.cfg.erb',
     $active_services     = true,
     $passive_services    = true,
-    $mysql_root_pw
     ) {
 
     Class['Icinga::Params'] -> Class['Icinga::Server']
