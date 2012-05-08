@@ -16,7 +16,7 @@ class icinga::newweb(
         ensure => installed,
     }
 
-    exec { 'icinga-create-mysqldb':
+    exec { 'icinga-create-newweb-mysqldb':
         command => "mysql --user=${db_user} --password=${db_pass} ${db_name} < /usr/share/icinga-web/etc/schema/mysql.sql",
         unless  => "mysql --user=${db_user}--password=${db_pass} ${db_name} -e 'describe nsm_user_role'",
         require => Package['icinga-web-1.6.1-1.el6.noarch'],
