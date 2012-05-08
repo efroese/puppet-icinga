@@ -2,6 +2,11 @@
 define timeperiod {
     timeperiod_name    <%= name %>
     alias              <%= timeperiod_alias %>
+
+    <% if use.length > 0 -%>
+    use                <%= use %>
+    <% end -%>
+
     <% if not includes.empty? -%>
     <% includes.keys.sort.each do |key| %>
     <%= key %>      <%= includes[key] %>

@@ -1,6 +1,7 @@
 
 define icinga::timeperiod (
     $timeperiod_alias,
+    $use = "",
     $includes = {},
     $exceptions = {},
     $excludes = []) {
