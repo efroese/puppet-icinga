@@ -52,6 +52,7 @@ class icinga::server (
 
     package { 'icinga-web-1.6.1-1.el6.noarch':
         source => 'http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/icinga-web-1.6.1-1.el6.noarch.rpm',
+        provider => rpm,
         ensure => installed,
     }
 
