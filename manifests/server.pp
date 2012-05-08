@@ -11,6 +11,7 @@ class icinga::server (
     $ido2db_template     = 'icinga/ido2db.cfg.erb',
     $active_services     = true,
     $passive_services    = true,
+    $mysql_root_pw
     ) {
 
     Class['Icinga::Params'] -> Class['Icinga::Server']
@@ -44,24 +45,13 @@ class icinga::server (
         package { 'nagios-plugins-all': ensure => installed }
     }
 
-    ### ICINGA WEB2 #####
-    package { ['php', 'php-cli', 'php-pear', 'php-xmlrpc', 'php-xsl', 'php-pdo', 'php-gd', 'php-ldap', 'php-mysql', 'perl-Locale-PO']:
-        ensure => $ensure,
-        require => Class['Icinga::Repos'],
-    }
-
-    package { 'icinga-web-1.6.1-1.el6.noarch':
-        source => 'http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/icinga-web-1.6.1-1.el6.noarch.rpm',
-        provider => rpm,
-        ensure => installed,
-    }
-
     file { '/etc/icinga/ido2db.cfg':
         ensure => present,
         owner => icinga,
         group => icinga,
         mode  => 664,
         content => template($ido2db_template),
+        require => Package['icinga-idoutils'],
     }
 
     file { '/etc/icinga/icinga.cfg':
@@ -70,6 +60,13 @@ class icinga::server (
         group => icinga,
         mode  => 664,
         content => template($icinga_cfg_template),
+        require => Package['icinga'],
+    }
+
+    exec { 'icinga-create-mysqldb':
+        command => "mysql --user=${db_user} --password=${db_pass} ${db_name} < /etc/icinga/idoutils/mysql/mysql.sql",
+        unless  => "mysql --user=${db_user}--password=${db_pass} ${db_name} -e 'describe icinga_dbversion'",
+        require => [ Package['icinga-idoutils'], Package['icinga'] ],
     }
 
     service { "icinga" :
@@ -85,7 +82,7 @@ class icinga::server (
     service { "ido2db" :
         ensure => running,
         enable => true,
-        require => Package["icinga"],
+        require => [ Package["icinga-idoutils"], Exec['icinga-create-mysqldb'] ],
         subscribe => File['/etc/icinga/ido2db.cfg'],
     }
 
