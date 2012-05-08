@@ -26,7 +26,7 @@ class icinga::server (
         require => [Group['icinga'], Group['icingacmd'], ],
     }
 
-    group { ['icinga', 'icingacmd', ]: }
+    group { ['icinga', 'icingacmd', ]: require => Package['icinga'] }
 
     package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui', 'icinga-idoutils',
                 'libdbi', 'libdbi-drivers', 'libdbi-dbd-mysql', ] :
