@@ -19,13 +19,6 @@ class icinga::nsca::sender (
         content => template('icinga/send_nsca.cfg.erb'),
     }
 
-    file { $icinga::params::eventhandlers:
-       ensure => directory,
-       owner => root,
-       group => root,
-       mode  => 0755,
-    }
-
     file { "${icinga::params::eventhandlers}/submit_check_result":
         owner => root,
         group => root,
