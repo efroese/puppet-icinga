@@ -92,6 +92,7 @@ class icinga::server (
     if ! defined(File[$icinga::params::nagios_conf_dir]) {
         file { $icinga::params::nagios_conf_dir :
             ensure => directory,
+            require => Package['icinga'],
         }
     }
 
