@@ -1,5 +1,6 @@
 class icinga::newweb(
     $ensure  = 'present',
+    $db_name = 'icinga_web',
     $db_user = 'icinga_web',
     $db_pass = 'icinga_web',
     $db_host = 'localhost'
