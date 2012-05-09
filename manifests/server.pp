@@ -29,7 +29,7 @@ class icinga::server (
     group { ['icinga', 'icingacmd', ]: require => Package['icinga'] }
 
     package { ['icinga', 'icinga-api', 'icinga-doc', 'icinga-gui', 'icinga-idoutils',
-                'libdbi', 'libdbi-drivers', 'libdbi-dbd-mysql', ] :
+                'libdbi', 'libdbi-drivers', 'libdbi-dbd-mysql', 'nagios-plugins-nrpe' ] :
         ensure => $ensure,
         require => Class['Icinga::Repos'],
     }
