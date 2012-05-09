@@ -18,7 +18,9 @@ define icinga::object (
     $default_tags = [ 'icinga_object', 'icinga_basic_object' ]
 
     $the_tags = $icinga_tags ? {
-        /^$|icinga_object|icinga_basic_object/ => $default_tags,
+        '' => $default_tags,
+        'icinga_basic_object' => $default_tags,
+        'icinga_object' => $default_tags,
         default => split(inline_template("<%= icinga_tags.flatten.join(',') %>"),','),
     }
   

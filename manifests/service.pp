@@ -46,7 +46,7 @@ define icinga::service ($host_name = $::fqdn,
     $multiple_values_array = "",
     $multiple_insertin = "",
     $service_template = "",
-    $tags = "",
+    $icinga_tags = "",
     $ensure = "present") {
     $host_name_real = downcase($host_name)
     $tmpl = $service_template ? {
@@ -60,12 +60,15 @@ define icinga::service ($host_name = $::fqdn,
     else {
         $content = template("${tmpl}", "icinga/servicedependency.erb")
     }
+
+    $the_tags = $icinga_tags ? {
+        "" => 'icinga_object',
+        default => [ 'icinga_object', $icinga_tags ],
+    }
+
     icinga::object { "service_${service_description}_${name}" :
         content => $content,
         ensure => $ensure,
-        icinga_tags => $tags ? {
-            "" => 'icinga_object',
-            default => [ 'icinga_object', $tags ],
-        },
+        icinga_tags => $the_tags,
     }
 }

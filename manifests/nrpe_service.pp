@@ -36,7 +36,7 @@ define icinga::nrpe_service ($host_name = $::fqdn,
     $multiple_insertin = "",
     $ensure = "present",
     $sudo = false,
-    $tags = "") {
+    $icinga_tags = "") {
     $cmd_real = $command_name ? {
         "" => $name,
         default => $command_name,
@@ -86,7 +86,7 @@ define icinga::nrpe_service ($host_name = $::fqdn,
             notification_failure_criteria => $notification_failure_criteria,
             multiple_values_array => $multiple_values_array,
             multiple_insertin => $multiple_insertin,
-            tags => $tags,
+            icinga_tags => $icinga_tags,
             ensure => $ensure,
     }
 }

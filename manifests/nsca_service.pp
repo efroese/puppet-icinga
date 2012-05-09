@@ -44,7 +44,7 @@ define icinga::nsca_service ($host_name = $::fqdn,
     $notification_failure_criteria = "w,u,c,p",
     $multiple_values_array = "",
     $multiple_insertin = "",
-    $tags = "",
+    $icinga_tags = "",
     $ensure = "present") {
     icinga::service {
         "icinga::nsca_${service_description}_${host_name}" :
@@ -83,7 +83,7 @@ define icinga::nsca_service ($host_name = $::fqdn,
             notification_failure_criteria => $notification_failure_criteria,
             multiple_values_array => $multiple_values_array,
             multiple_insertin => $multiple_insertin,
-            tags => $tags,
+            icinga_tags => $icinga_tags,
             ensure => $ensure,
     }
 }
