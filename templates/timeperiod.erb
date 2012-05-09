@@ -1,6 +1,7 @@
 ##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
 define timeperiod{
     timeperiod_name    <%= name %>
+    name               <%= name %>
     alias              <%= timeperiod_alias %>
     <% if use.length > 0 -%>
     use                <%= use %>
