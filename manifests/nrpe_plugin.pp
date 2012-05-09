@@ -1,4 +1,4 @@
-define icinga::nrpe_plugin ($host_name = "${fqdn}",
+define icinga::nrpe_plugin ($host_name = $::fqdn,
     $service_description,
     $servicegroups = "",
     $is_volatile = "",

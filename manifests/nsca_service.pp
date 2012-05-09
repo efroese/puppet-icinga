@@ -11,7 +11,7 @@
 #   icinga server at ${::fqdn} will store a passive service check
 #   You can also pass other arbitrary tags in an array.
 #
-define icinga::nsca_service ($host_name = "${fqdn}",
+define icinga::nsca_service ($host_name = $::fqdn,
     $service_description,
     $servicegroups = "",
     $is_volatile = "1",
