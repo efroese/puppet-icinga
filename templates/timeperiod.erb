@@ -1,24 +1,20 @@
 ##       MANAGED BY PUPPET, CHANGES WILL BE OVERWRITTEN           ##
-define timeperiod {
+define timeperiod{
     timeperiod_name    <%= name %>
     alias              <%= timeperiod_alias %>
-
     <% if use.length > 0 -%>
     use                <%= use %>
     <% end -%>
-
     <% if not includes.empty? -%>
-    <% includes.keys.sort.each do |key| %>
+    <% includes.keys.sort.each do |key| -%>
     <%= key %>      <%= includes[key] %>
-    <% end %>
     <% end -%>
-    
+    <% end -%>
     <% if not exceptions.empty? -%>
-    <% exceptions.keys.sort.each do |key| %>
+    <% exceptions.keys.sort.each do |key| -%>
     <%= key %>      <%= exceptions[key] %>
-    <% end %>
     <% end -%>
-    
+    <% end -%>
     <% if not excludes.empty? -%>
     excludes <%= excludes.sort.join(',') %>
     <% end -%>
