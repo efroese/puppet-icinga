@@ -1,3 +1,16 @@
+#
+# = Class: icinga::newweb
+# Install the icinga php interface
+#
+# == Paramters
+# $db_name:: The name fo the db to use for the web interface
+#
+# $db_user:: The db username
+#
+# $db_pass:: The db user password
+#
+# $db_host:: The host the db runs on
+#
 class icinga::newweb(
     $ensure  = 'present',
     $db_name = 'icinga_web',

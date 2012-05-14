@@ -1,3 +1,16 @@
+#
+# = Class: icinga::hostgroup
+# Represents an icinga/nagios hostgroup object.
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#hostgroup
+#
+# = Sample Usage:
+#
+# icinga::hostgroup { 'web-servers':
+#     hostgroup_alias => 'Web Servers',
+# }
+#
 define icinga::hostgroup (
     $hostgroup_name="",
     $hostgroup_alias="",

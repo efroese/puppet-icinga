@@ -1,4 +1,10 @@
-#$Id$
+#
+# = Class: icinga::command
+# Represents an icinga/nagios command object.
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#command
+#
 define icinga::command ($command_name = "",
     $command_line,
     $ensure = "present") {

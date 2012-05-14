@@ -1,5 +1,16 @@
-# $Id$
-
+#
+# = Class: icinga::servicegroup
+# Represents an icinga/nagios servicegroup object.
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#servicegroup
+#
+# = Sample Usage:
+#
+# icinga::servicegroup { 'dbservices':
+#     servicegroup_alias => 'Database Services',
+# }
+#
 define icinga::servicegroup (
     $servicegroup_name="",
     $servicegroup_alias="",

@@ -1,5 +1,16 @@
-#$Id$
-
+#
+# = Class: icinga::host
+# Represents an icinga/nagios host object.
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#host
+#
+# = Sample Usage:
+#
+# icinga::host { 'server1.example.xom':
+#     contact_groups => 'ops,vips',
+# }
+#
 define icinga::host(
     $host_name="${fqdn}",
     $host_alias="${hostname}",

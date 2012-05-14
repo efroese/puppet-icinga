@@ -1,3 +1,16 @@
+#
+# = Class: icinga::nrpe_service
+# An icinga service that checks via NRPE
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#service
+#
+# = Sample Usage:
+#
+# icinga::nrpe_service { 'check_nrpe_mysql':
+#     icinga_tags => 'icinga_active_icinga-master.example.com',
+# }
+#
 define icinga::nrpe_service ($host_name = $::fqdn,
     $service_description,
     $servicegroups = "",

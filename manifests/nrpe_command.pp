@@ -1,3 +1,18 @@
+#
+# = Class: icinga::nrpe_command
+# Represents an nagios NRPE command configuration. This is defined on the client node.
+#
+# = Parameters:
+# $command_line:: The command to run on the NRPE client
+#
+# $sudo:: Whether or not to use sudo 
+#
+# = Sample Usage:
+#
+# icinga::nrpe_command { 'check_mysql':
+#     command_line => '$USER1$/check_mysql',
+# }
+#
 define icinga::nrpe_command ($command_name = "",
     $command_line,
     $ensure = "present",
@@ -33,11 +48,9 @@ define icinga::nrpe_command ($command_name = "",
     }
 
     if ($command_line_real != "") {
-        file {
-            "${nrpe_d}/${name}.cfg" :
-                #file => "${nagioscfg}",
-                content => "command[${cmd_real}]=${command_line_real}\n",
-                ensure => $ensure,
+        file { "${nrpe_d}/${name}.cfg" :
+            content => "command[${cmd_real}]=${command_line_real}\n",
+            ensure => $ensure,
         }
     }
 }

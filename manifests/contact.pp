@@ -1,19 +1,10 @@
-#$Id$
-
-#define contact{
-#  contact_name                    jdoe
-#  alias                           John Doe
-#  service_notification_period     24x7
-#  host_notification_period        24x7
-#  service_notification_options    w,u,c,r
-#  host_notification_options       d,u,r
-#  service_notification_commands   notify-service-by-email
-#  host_notification_commands      notify-host-by-email
-# email       jdoe@localhost.localdomain
-# pager       555-5555@pagergateway.localhost.localdomain
-#  address1      xxxxx.xyyy@icq.com
-#  address2      555-555-5555
-#  }
+#
+# = Class: icinga::contact
+# Represents an icinga/nagios contact object.
+#
+# = Parameters:
+# See http://nagios.sourceforge.net/docs/3_0/objectdefinitions.html#contact
+#
 define icinga::contact (
     $contact_name="",
     $contact_alias,
