@@ -1,4 +1,51 @@
-# $Id$
+#
+# = Class icinga::server
+# Install an icinga server. Collect exported icinga::object resources to configure
+#
+# == Paramters
+#
+# $db_servertype:: icinga ido2db db type
+#
+# $db_host:: icinga ido2db db host
+#
+# $db_port:: icinga ido2db db port
+#
+# $db_name:: icinga ido2db db name
+#
+# $db_user:: icinga ido2db db user
+#
+# $db_pass:: icinga ido2db db pass
+#
+# $icinga_cfg_template:: /etc/icinga/icinga.cfg.erb template
+#
+# $ido2db_template:: /etc/icinga/ido2db.cfg.erb template
+#
+# $active_services     Collect active services to monitor
+#
+# $passive_services    Collect passive service checks if this is a central server
+#
+# == Sample Usage:
+#
+#  Central Monitoring Server
+#
+#  class { 'icinga::server':
+#    db_pass => 'my-secret-password',
+#    icinga_cfg_template => 'localconfig/icinga-central.cfg.erb',
+#    ido2db_template => 'localconfig/ido2db.cfg.erb',
+#    $active_services => false,
+#    $passive_services => true,
+#  }
+#
+#  Distributed Monitoring Server
+#
+#  class { 'icinga::server':
+#    db_pass => 'my-secret-password',
+#    icinga_cfg_template => 'localconfig/icinga-distributed.cfg.erb',
+#    ido2db_template => 'localconfig/ido2db.cfg.erb',
+#    $active_services => true,
+#    $passive_services => false,
+#  }
+#
 class icinga::server (
     $ensure = "present",
     $db_servertype = 'mysql',
