@@ -22,12 +22,6 @@ class icinga::nsca::receiver (
         require => Package["nagios-nsca"],
     }
 
-    icinga::service { "${fqdn}_nsca_receiver" :
-        service_description => "nsca",
-        check_command => "check_tcp!5667",
-        ensure => $ensure,
-    }
-
     icinga::command { "dummy_command_for_nsca" :
         command_name => "check_dummy",
         command_line => '$USER1$/check_dummy $ARG1$ $ARG2$',
