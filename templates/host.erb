@@ -10,6 +10,7 @@ define host{
 <% if hostgroups != "" and hostgroups.is_a? String
   hgroups = hostgroups.downcase
 -%>
+<% end -%>
 <% if hostgroups != "" and hostgroups.is_a? Array
   hgroups = hostgroups.collect { |hg| hg.downcase }.join(',')
 -%>
