@@ -27,7 +27,7 @@ define icinga::nrpe_command ($command_name = "",
     }
 
     if $sudo == true {
-        sudoers { "icinga::sudo_${hostname}_${cmd_real}":
+        sudoers { "icinga::sudo_${::hostname}_${cmd_real}":
             hosts => "ALL",
             users => "nagios",
             commands => " NOPASSWD: ${command_line}",
@@ -40,7 +40,7 @@ define icinga::nrpe_command ($command_name = "",
         default => "${command_line}"
     }
 
-    $nrpe_d = $operatingsystem ? {
+    $nrpe_d = $::operatingsystem ? {
         "FreeBSD" => "/usr/local/etc/nrpe.d",
         "Darwin" => "/opt/local/etc/nrpe/nrpe.d",
         /CentOS|RedHat|Amazon/ => '/etc/nrpe.d',

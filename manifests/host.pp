@@ -12,9 +12,9 @@
 # }
 #
 define icinga::host(
-    $host_name="${fqdn}",
-    $host_alias="${hostname}",
-    $address="${ipaddress}",
+    $host_name=$::fqdn,
+    $host_alias=$::hostname,
+    $address=$::ipaddress,
     $parents="",
     $hostgroups="",
     $check_command="check-host-alive",

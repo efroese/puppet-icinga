@@ -58,7 +58,7 @@ define icinga::nrpe_plugin ($host_name = $::fqdn,
     case $sudo {
         true : {
             sudoers {
-                "icinga::${hostname}_${cmd_real}" :
+                "icinga::${::hostname}_${cmd_real}" :
                     hosts => "ALL",
                     users => "nagios",
                     commands => "NOPASSWD: ${cmdline_real}",
