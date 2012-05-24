@@ -21,6 +21,14 @@ class icinga::nsca::sender (
         require => Package["nagios-nsca"],
     }
 
+    file { "${icinga::params::eventhandlers}/submit_check_result":
+        owner   => root,
+        group   => root,
+        mode    => 0755,
+        content => template('icinga/submit_check_result.erb'),
+        require => File[$icinga::params::eventhandlers],
+    }
+
     file { '/etc/icinga/send_nsca.cfg':
         owner => root,
         group => root,
