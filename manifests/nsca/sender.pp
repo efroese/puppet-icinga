@@ -34,6 +34,7 @@ class icinga::nsca::sender (
         group => root,
         mode  => 0644,
         content => template('icinga/send_nsca.cfg.erb'),
+        require => Package['icinga'],
     }
 
     if $munin_enabled == true {
