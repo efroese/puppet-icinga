@@ -1,3 +1,12 @@
+#
+# = Class icinga::nsca::sender
+# An icinga distrinbuted node is a sender. It sends check results to a central
+# icinga server. 
+#
+# == Paramters
+# $nsca_receiver:: The fqdn of the icinga central server.
+# $munin_enabled:: Enable munin integration
+#
 class icinga::nsca::sender (
     $ensure = "present",
     $nsca_receiver,
@@ -17,20 +26,6 @@ class icinga::nsca::sender (
         group => root,
         mode  => 0644,
         content => template('icinga/send_nsca.cfg.erb'),
-    }
-
-    file { "${icinga::params::eventhandlers}/submit_check_result":
-        owner => root,
-        group => root,
-        mode  => 0755,
-        content => template('icinga/submit_check_result.erb'),
-        require => File[$icinga::params::eventhandlers],
-    }
-
-    icinga::command { 'submit_check_result':
-        ensure => present,
-        command_line => "${icinga::params::eventhandlers}/submit_check_result \$HOSTNAME\$ '\$SERVICEDESC\$' \$SERVICESTATE\$ '\$SERVICEOUTPUT\$'",
-        require => File["${icinga::params::eventhandlers}/submit_check_result"],
     }
 
     if $munin_enabled == true {
