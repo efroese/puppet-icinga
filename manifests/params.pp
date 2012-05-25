@@ -6,18 +6,22 @@ class icinga::params {
     
     $nagios_conf_dir = '/etc/icinga/objects.d'
 
-    $nagiosplugins = $architecture ? {
-        x86_64  => '/usr/lib64/nagios/plugins',
-        default => '/usr/lib/nagios/plugins',
+    $lib_dir = $architecture ? {
+        x86_64  => '/usr/lib64',
+        default => '/usr/lib',
     }
 
-    $eventhandlers = $architecture ? {
-        x86_64  => '/usr/lib64/nagios/eventhandlers',
-        default => '/usr/lib/nagios/eventhandlers',
+    $nagiosplugins = "${lib_dir}/nagios/plugins"
+    $eventhandlers = "${lib_dir}/nagios/eventhandlers"
+
+    file { "${lib_dir}/nagios":
+        ensure => directory,
+        mode   => 0755,
     }
 
     file { $eventhandlers:
-        ensure => directory,
-        mode => 0755,
+        ensure  => directory,
+        mode    => 0755,
+        require => File["${lib_dir}/nagios"],
     }
 }
