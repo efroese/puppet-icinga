@@ -1,6 +1,6 @@
 #
 # = Class icinga::server
-# Install an icinga server. Collect exported icinga::object resources to configure
+# Install an icinga server and the classic web interface.
 #
 # == Paramters
 #
@@ -24,7 +24,21 @@
 #
 # $passive_services    Collect passive service checks if this is a central server
 #
+# $icinga_tag          The tag to use when collecting hosts and active/passive service checks.
+#                      Defaults to $::fqdn
+#
 # == Sample Usage:
+#
+#  Standalone Monitoring Server
+#
+#  class { 'icinga::server':
+#    db_pass => 'my-secret-password',
+#    icinga_cfg_template => 'localconfig/icinga.cfg.erb',
+#    ido2db_template => 'localconfig/ido2db.cfg.erb',
+#    active_services => true,
+#    passive_services => false,
+#    require => Mysql::Database['icinga'],
+#  }
 #
 #  Central Monitoring Server
 #
@@ -32,8 +46,9 @@
 #    db_pass => 'my-secret-password',
 #    icinga_cfg_template => 'localconfig/icinga-central.cfg.erb',
 #    ido2db_template => 'localconfig/ido2db.cfg.erb',
-#    $active_services => false,
-#    $passive_services => true,
+#    active_services => false,
+#    passive_services => true,
+#    require => Mysql::Database['icinga'],
 #  }
 #
 #  Distributed Monitoring Server
@@ -42,8 +57,9 @@
 #    db_pass => 'my-secret-password',
 #    icinga_cfg_template => 'localconfig/icinga-distributed.cfg.erb',
 #    ido2db_template => 'localconfig/ido2db.cfg.erb',
-#    $active_services => true,
-#    $passive_services => false,
+#    active_services => true,
+#    passive_services => false,
+#    require => Mysql::Database['icinga'],
 #  }
 #
 class icinga::server (
@@ -58,6 +74,7 @@ class icinga::server (
     $ido2db_template     = 'icinga/ido2db.cfg.erb',
     $active_services     = true,
     $passive_services    = true,
+    $icinga_tag          = $::fqdn
     ) {
 
     Class['Icinga::Params'] -> Class['Icinga::Server']
@@ -143,29 +160,29 @@ class icinga::server (
     # Collect basic icinga objects. The things all icinga servers in a distributed setup share.
     # commands, timeperiods, contacts, servicegroups, hostgroups, macros, ...
     File <<| tag == 'icinga_basic_object' |>> {
-        notify => Service["icinga"],
+        notify => Service['icinga'],
         purge => true
     }
 
     # Collect the icinga hosts for this server
     # nodes should tag their icinga::host with the local and central nagios fqdns
-    File <<| tag == "icinga_host_${::fqdn}" |>> {
-        notify => Service["icinga"],
+    File <<| tag == "icinga_host_${icinga_tag}" |>> {
+        notify => Service['icinga'],
         purge => true
     }
 
     # Collect active icinga services
     if $active_services == true {
-        File <<| tag == "icinga_active_${::fqdn}" |>> {
-            notify => Service["icinga"],
+        File <<| tag == "icinga_active_${icinga_tag}" |>> {
+            notify => Service['icinga'],
             purge => true
         }
     }
 
     # Collect passive icinga services
     if $passive_services == true {
-        File <<| tag == "icinga_passive_${::fqdn}" |>> {
-            notify => Service["icinga"],
+        File <<| tag == "icinga_passive_${icinga_tag}" |>> {
+            notify => Service['icinga'],
             purge => true
         }
     }
