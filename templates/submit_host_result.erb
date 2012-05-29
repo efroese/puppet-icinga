@@ -1,0 +1,8 @@
+# Arguments:
+# $1 = host_name (Short name of host that the service is
+# associated with)
+# $2 = host check output (0, 1, 2, etc.)
+# $3 = plugin_output (A text string that should be used
+# as the plugin output for the service checks)
+
+/usr/bin/printf "%s\t%s\t%s\n" "$1" "$2" "$3" | /usr/sbin/send_nsca -H <%= scope.lookupvar('icinga::nsca::sender::nsca_receiver') %> -c /etc/nagios/send_nsca.cfg

@@ -29,6 +29,14 @@ class icinga::nsca::sender (
         require => File[$icinga::params::eventhandlers],
     }
 
+    file { "${icinga::params::eventhandlers}/submit_host_result":
+        owner   => root,
+        group   => root,
+        mode    => 0755,
+        content => template('icinga/submit_host_result.erb'),
+        require => File[$icinga::params::eventhandlers],
+    }
+
     file { '/etc/icinga/send_nsca.cfg':
         owner => root,
         group => root,
