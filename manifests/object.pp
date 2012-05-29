@@ -24,7 +24,7 @@ define icinga::object (
         default => split(inline_template("<%= icinga_tags.flatten.join(',') %>"),','),
     }
   
-    #notice("${fqdn}: Setting nagios3 name: ${name}, check: ${name_real} and: ${path_real}")
+    notice("${fqdn}: Exporting : ${path_real}.cfg")
     @@file { "${path_real}.cfg" :
         ensure => $ensure,
         content => $content,
