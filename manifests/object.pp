@@ -9,7 +9,7 @@ define icinga::object (
     $icinga_tags = "") {
 
     #nagios cannot read file with dots "."
-    $name_real = regsubst($name, '[\.:]', '_', 'G')
+    $name_real = regsubst($name, '[-\.:\W]', '_', 'G')
     $path_real = $path ? {
         "" => "${icinga::params::nagios_conf_dir}/${name_real}",
         default => $path,
