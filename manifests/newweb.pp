@@ -19,7 +19,7 @@ class icinga::newweb(
     $db_host = 'localhost'
     ) {
     
-    package { ['php', 'php-cli', 'php-pear', 'php-xmlrpc', 'php-pdo', 'php-gd', 'php-ldap', 'php-mysql', 'perl-Locale-PO']:
+    package { ['php', 'php-xml', 'php-cli', 'php-pear', 'php-xmlrpc', 'php-pdo', 'php-gd', 'php-ldap', 'php-mysql', 'perl-Locale-PO']:
         ensure => $ensure,
         require => Class['Icinga::Repos'],
     }
