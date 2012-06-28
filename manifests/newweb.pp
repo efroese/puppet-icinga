@@ -27,9 +27,10 @@ class icinga::newweb(
     $icinga_pkg = 'icinga-web-1.6.1-1.el6.noarch'
 
     package { $icinga_pkg:
-        source => "http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/${icinga_pkg}.rpm",
+        source   => "http://wiki.nikoforge.org/download/icinga/icinga-rpm.oetken.cc/${icinga_pkg}.rpm",
         provider => rpm,
-        ensure => installed,
+        ensure   => installed,
+        require  => Package['php-xml'],
     }
 
     exec { 'icinga-create-newweb-mysqldb':
