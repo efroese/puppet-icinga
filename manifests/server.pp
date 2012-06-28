@@ -103,11 +103,6 @@ class icinga::server (
         ensure => $ensure
     }
 
-    # might already be defined by a nagios module
-    if ! defined(Package['nagios-plugins-all']){
-        package { 'nagios-plugins-all': ensure => installed }
-    }
-
     file { '/etc/icinga/ido2db.cfg':
         ensure => present,
         owner => icinga,

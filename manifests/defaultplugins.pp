@@ -1,0 +1,53 @@
+class icinga::defaultplugins { 
+
+    package { 'nagios-plugins-by_ssh': ensure => installed }
+    package { 'nagios-plugins-check-updates': ensure => installed }
+    package { 'nagios-plugins-check_sip': ensure => installed }
+    package { 'nagios-plugins-cluster': ensure => installed }
+    package { 'nagios-plugins-dig': ensure => installed }
+    package { 'nagios-plugins-disk': ensure => installed }
+    package { 'nagios-plugins-disk_smb': ensure => installed }
+    package { 'nagios-plugins-dns': ensure => installed }
+    package { 'nagios-plugins-dummy': ensure => installed }
+    package { 'nagios-plugins-file_age': ensure => installed }
+    package { 'nagios-plugins-fping': ensure => installed }
+    package { 'nagios-plugins-game': ensure => installed }
+    package { 'nagios-plugins-hpjd': ensure => installed }
+    package { 'nagios-plugins-http': ensure => installed }
+    package { 'nagios-plugins-ide_smart': ensure => installed }
+    package { 'nagios-plugins-ifoperstatus': ensure => installed }
+    package { 'nagios-plugins-ifstatus': ensure => installed }
+    package { 'nagios-plugins-ircd': ensure => installed }
+    package { 'nagios-plugins-lcgdm': ensure => installed }
+    package { 'nagios-plugins-lcgdm-common': ensure => installed }
+    package { 'nagios-plugins-ldap': ensure => installed }
+    package { 'nagios-plugins-lfc': ensure => installed }
+    package { 'nagios-plugins-linux_raid': ensure => installed }
+    package { 'nagios-plugins-load': ensure => installed }
+    package { 'nagios-plugins-log': ensure => installed }
+    package { 'nagios-plugins-mailq': ensure => installed }
+    package { 'nagios-plugins-mrtg': ensure => installed }
+    package { 'nagios-plugins-mrtgtraf': ensure => installed }
+    package { 'nagios-plugins-mysql': ensure => installed }
+    package { 'nagios-plugins-nagios': ensure => installed }
+    package { 'nagios-plugins-nt': ensure => installed }
+    package { 'nagios-plugins-ntp': ensure => installed }
+    package { 'nagios-plugins-nwstat': ensure => installed }
+    package { 'nagios-plugins-openmanage': ensure => installed }
+    package { 'nagios-plugins-overcr': ensure => installed }
+    package { 'nagios-plugins-perl': ensure => installed }
+    package { 'nagios-plugins-pgsql': ensure => installed }
+    package { 'nagios-plugins-ping': ensure => installed }
+    package { 'nagios-plugins-procs': ensure => installed }
+    package { 'nagios-plugins-rpc': ensure => installed }
+    package { 'nagios-plugins-sensors': ensure => installed }
+    package { 'nagios-plugins-setuid': ensure => installed }
+    package { 'nagios-plugins-smtp': ensure => installed }
+    package { 'nagios-plugins-snmp': ensure => installed }
+    package { 'nagios-plugins-ssh': ensure => installed }
+    package { 'nagios-plugins-swap': ensure => installed }
+    package { 'nagios-plugins-tcp': ensure => installed }
+    package { 'nagios-plugins-time': ensure => installed }
+    package { 'nagios-plugins-users': ensure => installed }
+}
+
