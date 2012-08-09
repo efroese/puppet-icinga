@@ -98,11 +98,6 @@ class icinga::server (
         require => Class['Icinga::Repos'],
     }
 
-    package { [ 'gcc', 'glibc', 'glibc-common', 'gd', 'gd-devel',
-                'libjpeg', 'libjpeg-devel', 'libpng', 'libpng-devel' ]:
-        ensure => $ensure
-    }
-
     file { '/etc/icinga/ido2db.cfg':
         ensure => present,
         owner => icinga,
